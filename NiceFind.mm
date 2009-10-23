@@ -32,8 +32,11 @@
 
 @end
 
-@implementation OakProjectController (nice_find)
 
+@interface OakProjectController : NSObject @end
+@interface OakProjectController (nice_find) @end
+
+@implementation OakProjectController (nice_find)
 
 - (id)fip:(id)fp8 {
 	NSLog(@"%@", GTMStackTrace());
@@ -44,11 +47,8 @@
 }
 @end 
 
-@interface OakFindManager : NSObject 
-@end
-
-@interface OakFindManager (nice_find)
-@end
+@interface OakFindManager : NSObject @end
+@interface OakFindManager (nice_find) @end
 
 @implementation OakFindManager (nice_find)
 

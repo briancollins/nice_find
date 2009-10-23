@@ -18,8 +18,4 @@
 - (id)initWithPlugInController:(id <TMPlugInController>)aController;
 @end
 
-@interface OakProjectController : NSObject
-@end
 
-@interface OakProjectController (nice_find)
-@end
