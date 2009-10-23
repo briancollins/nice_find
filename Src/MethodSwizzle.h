@@ -29,8 +29,8 @@ extern "C" {
 
 #import <objc/objc.h>
 
-BOOL ClassMethodSwizzle(Class klass, SEL origSel, SEL altSel);
-BOOL MethodSwizzle(Class klass, SEL origSel, SEL altSel);
+BOOL classMethodSwizzle(Class klass, SEL origSel, SEL altSel);
+BOOL methodSwizzle(Class klass, SEL origSel, SEL altSel);
 
 #ifdef __cplusplus
 }
