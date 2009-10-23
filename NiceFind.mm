@@ -22,14 +22,6 @@
 	return self;
 }
 
-- (void)test:(id)foo {
-	exit(1);
-}
-
-- (float)version {
-	return 0.01;
-}
-
 @end
 
 
