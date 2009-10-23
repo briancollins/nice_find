@@ -7,12 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		177E4DA309132A0F0064163D /* NiceFind.mm in Sources */ = {isa = PBXBuildFile; fileRef = 177E4DA209132A0F0064163D /* NiceFind.mm */; };
+		177E4DA309132A0F0064163D /* NiceFind.m in Sources */ = {isa = PBXBuildFile; fileRef = 177E4DA209132A0F0064163D /* NiceFind.m */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		91E48E5D0CC7F044004429E5 /* MethodSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 91E48E5C0CC7F044004429E5 /* MethodSwizzle.m */; };
 		D3EBBD63109257AD00E682DE /* GTMStackTrace.m in Sources */ = {isa = PBXBuildFile; fileRef = D3EBBD62109257AD00E682DE /* GTMStackTrace.m */; };
 		D3EBBD7B109257D400E682DE /* GTMObjC2Runtime.m in Sources */ = {isa = PBXBuildFile; fileRef = D3EBBD7A109257D400E682DE /* GTMObjC2Runtime.m */; };
+		D3EBBDC810925DA500E682DE /* class-dump.mm in Sources */ = {isa = PBXBuildFile; fileRef = D3EBBDC710925DA500E682DE /* class-dump.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,11 +22,10 @@
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		177E4DA109132A0F0064163D /* NiceFind.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NiceFind.h; sourceTree = "<group>"; };
-		177E4DA209132A0F0064163D /* NiceFind.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NiceFind.mm; sourceTree = "<group>"; };
+		177E4DA209132A0F0064163D /* NiceFind.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NiceFind.m; sourceTree = "<group>"; };
 		32DBCF630370AF2F00C91783 /* NiceFind_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NiceFind_Prefix.pch; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* NiceFind.tmplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NiceFind.tmplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9106C5EC0CC18262004D2B7E /* class-dump.mm */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.objcpp; path = "class-dump.mm"; sourceTree = "<group>"; };
 		91E48E5B0CC7F044004429E5 /* MethodSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MethodSwizzle.h; sourceTree = "<group>"; };
 		91E48E5C0CC7F044004429E5 /* MethodSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MethodSwizzle.m; sourceTree = "<group>"; };
 		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
@@ -34,6 +34,7 @@
 		D3EBBD79109257D400E682DE /* GTMObjC2Runtime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMObjC2Runtime.h; path = GTM/GTMObjC2Runtime.h; sourceTree = "<group>"; };
 		D3EBBD7A109257D400E682DE /* GTMObjC2Runtime.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = GTMObjC2Runtime.m; path = GTM/GTMObjC2Runtime.m; sourceTree = "<group>"; };
 		D3EBBD7C109257E700E682DE /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMDefines.h; path = GTM/GTMDefines.h; sourceTree = "<group>"; };
+		D3EBBDC710925DA500E682DE /* class-dump.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "class-dump.mm"; path = "Doc/class-dump.mm"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +52,7 @@
 		089C166AFE841209C02AAC07 /* NiceFind */ = {
 			isa = PBXGroup;
 			children = (
+				D3EBBDC010925D8000E682DE /* Doc */,
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				32C88E010371C26100C91783 /* Other Sources */,
 				089C167CFE841241C02AAC07 /* Resources */,
@@ -82,7 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				D3EBBD601092579B00E682DE /* GTM */,
-				177E4DA209132A0F0064163D /* NiceFind.mm */,
+				177E4DA209132A0F0064163D /* NiceFind.m */,
 				177E4DA109132A0F0064163D /* NiceFind.h */,
 			);
 			name = Classes;
@@ -119,7 +121,6 @@
 			children = (
 				91E48E5C0CC7F044004429E5 /* MethodSwizzle.m */,
 				91E48E5B0CC7F044004429E5 /* MethodSwizzle.h */,
-				9106C5EC0CC18262004D2B7E /* class-dump.mm */,
 				32DBCF630370AF2F00C91783 /* NiceFind_Prefix.pch */,
 			);
 			name = "Other Sources";
@@ -135,6 +136,14 @@
 				D3EBBD62109257AD00E682DE /* GTMStackTrace.m */,
 			);
 			name = GTM;
+			sourceTree = "<group>";
+		};
+		D3EBBDC010925D8000E682DE /* Doc */ = {
+			isa = PBXGroup;
+			children = (
+				D3EBBDC710925DA500E682DE /* class-dump.mm */,
+			);
+			name = Doc;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -208,10 +217,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				177E4DA309132A0F0064163D /* NiceFind.mm in Sources */,
+				177E4DA309132A0F0064163D /* NiceFind.m in Sources */,
 				91E48E5D0CC7F044004429E5 /* MethodSwizzle.m in Sources */,
 				D3EBBD63109257AD00E682DE /* GTMStackTrace.m in Sources */,
 				D3EBBD7B109257D400E682DE /* GTMObjC2Runtime.m in Sources */,
+				D3EBBDC810925DA500E682DE /* class-dump.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

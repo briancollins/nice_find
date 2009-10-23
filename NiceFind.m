@@ -6,9 +6,10 @@
 //  Copyright 2009 Brian Collins. All rights reserved.
 //
 
+#import <objc/runtime.h>
+
 #import "NiceFind.h"
 #import "MethodSwizzle.h"
-#import <objc/runtime.h>
 #import "GTMStackTrace.h"
 
 @implementation NiceFind
@@ -17,8 +18,8 @@
 {
 	self = [self init];
 	NSApp = [NSApplication sharedApplication];
-	MethodSwizzle(objc_getClass("OakProjectController"), @selector(findInProjectWithOptions:), @selector(fip:));
-	MethodSwizzle(objc_getClass("OakFindManager"), @selector(performFindInProjectAction:), @selector(performFindInProjectActionNew:));
+	methodSwizzle(objc_getClass("OakProjectController"), @selector(findInProjectWithOptions:), @selector(fip:));
+	methodSwizzle(objc_getClass("OakFindManager"), @selector(performFindInProjectAction:), @selector(performFindInProjectActionNew:));
 	return self;
 }
 

@@ -33,19 +33,19 @@
 #import <objc/objc-class.h>
 #import <uuid/uuid.h>
 
-static BOOL _PerformSwizzle(Class klass, SEL origSel, SEL altSel, BOOL forInstance);
+static BOOL _performSwizzle(Class klass, SEL origSel, SEL altSel, BOOL forInstance);
 
-BOOL ClassMethodSwizzle(Class klass, SEL origSel, SEL altSel) {
-	return _PerformSwizzle(klass, origSel, altSel, NO);
+BOOL classMethodSwizzle(Class klass, SEL origSel, SEL altSel) {
+	return _performSwizzle(klass, origSel, altSel, NO);
 }
 
-BOOL MethodSwizzle(Class klass, SEL origSel, SEL altSel) {
-	return _PerformSwizzle(klass, origSel, altSel, YES);
+BOOL methodSwizzle(Class klass, SEL origSel, SEL altSel) {
+	return _performSwizzle(klass, origSel, altSel, YES);
 }
 
 // if the origSel isn't present in the class, pull it up from where it exists
 // then do the swizzle
-BOOL _PerformSwizzle(Class klass, SEL origSel, SEL altSel, BOOL forInstance) {
+BOOL _performSwizzle(Class klass, SEL origSel, SEL altSel, BOOL forInstance) {
     // First, make sure the class isn't nil
 	if (klass != nil) {
 		Method origMethod = NULL, altMethod = NULL;
