@@ -13,7 +13,6 @@
 		91E48E5D0CC7F044004429E5 /* MethodSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 91E48E5C0CC7F044004429E5 /* MethodSwizzle.m */; };
 		D3EBBD63109257AD00E682DE /* GTMStackTrace.m in Sources */ = {isa = PBXBuildFile; fileRef = D3EBBD62109257AD00E682DE /* GTMStackTrace.m */; };
 		D3EBBD7B109257D400E682DE /* GTMObjC2Runtime.m in Sources */ = {isa = PBXBuildFile; fileRef = D3EBBD7A109257D400E682DE /* GTMObjC2Runtime.m */; };
-		D3EBBDC810925DA500E682DE /* class-dump.mm in Sources */ = {isa = PBXBuildFile; fileRef = D3EBBDC710925DA500E682DE /* class-dump.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -221,7 +220,6 @@
 				91E48E5D0CC7F044004429E5 /* MethodSwizzle.m in Sources */,
 				D3EBBD63109257AD00E682DE /* GTMStackTrace.m in Sources */,
 				D3EBBD7B109257D400E682DE /* GTMObjC2Runtime.m in Sources */,
-				D3EBBDC810925DA500E682DE /* class-dump.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
