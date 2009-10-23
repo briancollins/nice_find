@@ -16,6 +16,7 @@
 {
 	self = [self init];
 	NSApp = [NSApplication sharedApplication];
+	MethodSwizzle(objc_getClass("OakProjectController"), @selector(findInProjectWithOptions:), @selector(fip:));
 	return self;
 }
 
@@ -32,8 +33,10 @@
 @implementation OakProjectController (nice_find)
 
 
-- (id)findInProjectWithOptions:(id)fp8 {
-	NSLog(@"%@", fp8);
-	exit(1);	
+- (id)fip:(id)fp8 {
+	NSLog(@"input: %@", fp8);
+	id result = [self fip:fp8];
+	NSLog(@"result: %@", result);
+	return result;
 }
 @end 
