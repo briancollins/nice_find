@@ -34,9 +34,7 @@
 
 
 - (void)orderFrontFindInProjectPanel:(id)sender {
-	FindController *fc = [[FindController alloc] initWithWindowNibName:@"FindPanel"];
-	fc.project = [[[NSApplication sharedApplication] keyWindow] windowController];
-	[fc showWindow:self];
+	[[FindController sharedInstance] show];
 }
 
 @end

@@ -12,12 +12,40 @@
 @implementation FindController
 @synthesize query, findButton, project, resultsTable, queryField, results, buffer, useGit, caseSensitive;
 
-- (void)windowDidLoad {
-	[self.window makeKeyAndOrderFront:self];
+static FindController *fc;
+
++ (id)sharedInstance {
+	if (fc != nil) {
+				return fc;
+	} else {
+		return fc = [[self alloc] initWithWindowNibName:@"FindPanel"];
+				[fc showWindow:self];
+	}
 }
 
-- (id)font {
+- (void)goToFile:(id)sender {
 	
+	//[self.project revealInProject:[[self.results objectAtIndex:[self.resultsTable selectedRow]] objectForKey:@"file"]];
+}
+
+- (id)initWithWindowNibName:(NSString *)windowNibName {
+	if (self = [super initWithWindowNibName:windowNibName]) {
+
+	}
+	return self;
+}
+
+- (void)windowDidLoad {
+	[self.resultsTable setDoubleAction:@selector(goToFile:)];
+}
+
+- (void)show {
+	self.project = [[[NSApplication sharedApplication] keyWindow] windowController];
+	[self showWindow:self];
+}
+
+
+- (id)font {
 	return [[objc_getClass("OakFontsAndColorsController") sharedInstance] font];
 }
 
@@ -78,7 +106,7 @@
 }
 
 - (void)stopProcess {
-	[[task standardOutput] close];
+	[[[task standardOutput] fileHandleForReading] closeFile];
 	[task terminate];
 }
 
@@ -121,7 +149,6 @@
 			[pretty setAttributes:[NSDictionary dictionaryWithObject:[self bold] forKey:NSFontAttributeName] range:found];
 			range.location = found.location + found.length;
 			range.length = [s length] - range.location;
-			NSLog(@"LOC %d %@", range.location, s);
 		}
 	}
 	
@@ -134,7 +161,6 @@
 
 
 - (void)addResult:(NSString *)aResult { 
-	NSLog(@"%@", aResult);
 	NSArray *components = [aResult componentsSeparatedByRegex:@":\\d+:"];
 	if ([components count] > 1) {
 		

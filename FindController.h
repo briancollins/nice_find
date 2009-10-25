@@ -32,6 +32,7 @@
 @property (nonatomic, retain) NSMutableArray *results;
 @property (nonatomic, retain) NSMutableString *buffer;
 
++ (id)sharedInstance;
 - (IBAction)performFind:(id)sender;
 - (void)stopProcess;
 - (void)taskEnded:(NSNotification *)aNotification;
