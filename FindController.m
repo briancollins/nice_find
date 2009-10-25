@@ -10,10 +10,14 @@
 #import "RegexKitLite.h"
 
 @implementation FindController
-@synthesize query, findButton, project, resultsTable, results, buffer, useGit, caseSensitive;
+@synthesize query, findButton, project, resultsTable, queryField, results, buffer, useGit, caseSensitive;
 
 - (void)windowDidLoad {
 	[self.window makeKeyAndOrderFront:self];
+}
+
+- (id)font {
+	return [[objc_getClass("OakFontsAndColorsController") sharedInstance] font];
 }
 
 - (void)textFieldDidEndEditing:(NSTextField *)textField {
@@ -30,6 +34,7 @@
 }
 
 - (void)find:(NSString *)q inDirectory:(NSString *)directory {
+	self.query = q;
 	NSTask *task = [[NSTask alloc] init];
     [task setStandardOutput:[NSPipe pipe]];
     [task setStandardError:[task standardOutput]];
@@ -63,7 +68,7 @@
 	self.results = [NSMutableArray array];
 	[self.resultsTable reloadData];
 	self.buffer = [NSMutableString string];
-	[self find:[self.query stringValue] inDirectory:[self.project projectDirectory]];
+	[self find:[self.queryField stringValue] inDirectory:[self.project projectDirectory]];
 }
 
 	 
@@ -83,13 +88,27 @@
 	
 	[[aNotification object] readInBackgroundAndNotify];  
 }
-		 
+
+
+- (NSAttributedString *)prettifyString:(NSString *)s query:(NSString *)q {
+	return [[NSAttributedString alloc] initWithString:s
+									attributes:[NSDictionary dictionaryWithObjectsAndKeys:
+												[self font], NSFontAttributeName,
+												nil]];
+}
+
+- (NSAttributedString *)prettifyString:(NSString *)s { 
+	return [self prettifyString:s query:nil];
+}
+
 - (void)addResult:(NSString *)aResult {
 	NSArray *components = [aResult componentsSeparatedByRegex:@":\\d+:"];
 	if ([components count] > 1) {
+		[self prettifyString:[components objectAtIndex:0]];
+		
 		[self.results addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-								 [components objectAtIndex:0], @"file", 
-								 [components objectAtIndex:1], @"match", nil]];
+								 [self prettifyString:[components objectAtIndex:0]], @"file", 
+								 [self prettifyString:[components objectAtIndex:1]], @"match", nil]];
 		[self.resultsTable reloadData];
 	}
 }

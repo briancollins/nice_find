@@ -11,20 +11,22 @@
 
 @interface FindController : NSWindowController {
 	NSButton *findButton;
-	NSTextField *query;
+	NSTextField *queryField;
 	NSTableView *resultsTable;
 	NSMutableArray *results;
 	OakProjectController *project;
 	NSMutableString *buffer;
 	NSButton *useGit;
 	NSButton *caseSensitive;
+	NSString *query;
 }
 
 @property (nonatomic, retain) IBOutlet NSButton *findButton;
-@property (nonatomic, retain) IBOutlet NSTextField *query;
+@property (nonatomic, retain) IBOutlet NSTextField *queryField;
 @property (nonatomic, retain) IBOutlet NSTableView *resultsTable;
 @property (nonatomic, retain) IBOutlet NSButton *useGit;
 @property (nonatomic, retain) IBOutlet NSButton *caseSensitive;
+@property (nonatomic, retain) NSString *query;
 @property (nonatomic, retain) OakProjectController *project;
 @property (nonatomic, retain) NSMutableArray *results;
 @property (nonatomic, retain) NSMutableString *buffer;
@@ -33,3 +35,4 @@
 
 
 @end
+
