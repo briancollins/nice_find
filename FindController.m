@@ -10,7 +10,7 @@
 #import "RegexKitLite.h"
 
 @implementation FindController
-@synthesize query, findButton, project, resultsTable, results, buffer, useGit;
+@synthesize query, findButton, project, resultsTable, results, buffer, useGit, caseSensitive;
 
 - (void)windowDidLoad {
 	[self.window makeKeyAndOrderFront:self];
@@ -20,6 +20,14 @@
 	[self performFind:self];
 }
 
+
+- (BOOL)useGitGrep {
+	return [self.useGit state] == NSOnState;
+}
+
+- (BOOL)useCaseSensitive {
+	return [self.caseSensitive state] == NSOnState;
+}
 
 - (void)find:(NSString *)q inDirectory:(NSString *)directory {
 	NSTask *task = [[NSTask alloc] init];
@@ -36,6 +44,9 @@
 	} else
 		[args addObjectsFromArray:[NSArray arrayWithObjects:@"grep", @"-Ir", nil]];
 	
+	if (![self useCaseSensitive]) 
+		[args addObject:@"-i"];
+		
 	[args addObjectsFromArray:[NSArray arrayWithObjects:@"-n", @"-e", q, directory, nil]];
 	[task setArguments:args];
 	
@@ -50,13 +61,11 @@
 
 - (IBAction)performFind:(id)sender {
 	self.results = [NSMutableArray array];
+	[self.resultsTable reloadData];
 	self.buffer = [NSMutableString string];
 	[self find:[self.query stringValue] inDirectory:[self.project projectDirectory]];
 }
 
-- (BOOL)useGitGrep {
-	return [self.useGit state] == NSOnState;
-}
 	 
 - (void)getData:(NSNotification *)aNotification{
 	NSData *data = [[aNotification userInfo] objectForKey:NSFileHandleNotificationDataItem];

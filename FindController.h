@@ -17,12 +17,14 @@
 	OakProjectController *project;
 	NSMutableString *buffer;
 	NSButton *useGit;
+	NSButton *caseSensitive;
 }
 
 @property (nonatomic, retain) IBOutlet NSButton *findButton;
 @property (nonatomic, retain) IBOutlet NSTextField *query;
 @property (nonatomic, retain) IBOutlet NSTableView *resultsTable;
 @property (nonatomic, retain) IBOutlet NSButton *useGit;
+@property (nonatomic, retain) IBOutlet NSButton *caseSensitive;
 @property (nonatomic, retain) OakProjectController *project;
 @property (nonatomic, retain) NSMutableArray *results;
 @property (nonatomic, retain) NSMutableString *buffer;
