@@ -17,6 +17,7 @@
 }
 
 - (id)font {
+	
 	return [[objc_getClass("OakFontsAndColorsController") sharedInstance] font];
 }
 
@@ -35,7 +36,7 @@
 
 - (void)find:(NSString *)q inDirectory:(NSString *)directory {
 	self.query = q;
-	NSTask *task = [[NSTask alloc] init];
+	task = [[NSTask alloc] init];
     [task setStandardOutput:[NSPipe pipe]];
     [task setStandardError:[task standardOutput]];
 	
@@ -59,56 +60,87 @@
 											 selector:@selector(getData:) 
 												 name:NSFileHandleReadCompletionNotification 
 											   object:[[task standardOutput] fileHandleForReading]];
+	[[NSNotificationCenter defaultCenter] addObserver:self 
+											 selector:@selector(taskEnded:) 
+												 name:NSTaskDidTerminateNotification 
+											   object:task];
     
     [[[task standardOutput] fileHandleForReading] readInBackgroundAndNotify];
     [task launch];    
 }
 
 - (IBAction)performFind:(id)sender {
+	[self stopProcess];
 	self.results = [NSMutableArray array];
 	[self.resultsTable reloadData];
 	self.buffer = [NSMutableString string];
 	[self find:[self.queryField stringValue] inDirectory:[self.project projectDirectory]];
 }
 
+- (void)stopProcess {
+	[[task standardOutput] close];
+	[task terminate];
+}
+
+- (void)taskEnded:(NSNotification *)aNotification {
+	[[[[aNotification object] standardOutput] fileHandleForReading] closeFile];
+	[self addResult:self.buffer];
+}
 	 
 - (void)getData:(NSNotification *)aNotification{
 	NSData *data = [[aNotification userInfo] objectForKey:NSFileHandleNotificationDataItem];
 
-	if ([data length]) {
-		[self.buffer appendString:[[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease]];
-		NSArray *parts = [self.buffer componentsSeparatedByString:@"\n"];
-		if ([parts count] > 1) {
-			self.buffer = [NSMutableString stringWithString:[parts objectAtIndex:1]];
-			[self addResult:[parts objectAtIndex:0]];
+	[self.buffer appendString:[[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease]];
+	NSArray *parts = [self.buffer componentsSeparatedByString:@"\n"];
+	if ([parts count] > 1) {
+		for (NSString *p in [parts subarrayWithRange:NSMakeRange (0, [parts count] - 1)]) {
+			[self addResult:p];
 		}
-	} else {
-		//[self stopProcess];
+		self.buffer = [NSMutableString stringWithString:[parts lastObject]];
 	}
-	
+
 	[[aNotification object] readInBackgroundAndNotify];  
+}
+
+- (NSFont *)bold {
+	return [[NSFontManager sharedFontManager] convertFont:[self font] toHaveTrait:NSBoldFontMask];
 }
 
 
 - (NSAttributedString *)prettifyString:(NSString *)s query:(NSString *)q {
-	return [[NSAttributedString alloc] initWithString:s
-									attributes:[NSDictionary dictionaryWithObjectsAndKeys:
-												[self font], NSFontAttributeName,
-												nil]];
+	NSMutableAttributedString *pretty = [[NSMutableAttributedString alloc] initWithString:s attributes:
+										 [NSDictionary dictionaryWithObject:[self font] forKey:NSFontAttributeName]];
+
+
+	if (q != nil) {
+		NSRange range = NSMakeRange(0, NSUIntegerMax);
+		NSRange found;
+		while (range.location < [s length] &&
+			   (found = [s rangeOfRegex:q options:RKLCaseless inRange:range capture:0 error:nil]).location != NSNotFound) {
+
+			[pretty setAttributes:[NSDictionary dictionaryWithObject:[self bold] forKey:NSFontAttributeName] range:found];
+			range.location = found.location + found.length;
+			range.length = [s length] - range.location;
+			NSLog(@"LOC %d %@", range.location, s);
+		}
+	}
+	
+	return pretty;
 }
 
 - (NSAttributedString *)prettifyString:(NSString *)s { 
 	return [self prettifyString:s query:nil];
 }
 
-- (void)addResult:(NSString *)aResult {
+
+- (void)addResult:(NSString *)aResult { 
+	NSLog(@"%@", aResult);
 	NSArray *components = [aResult componentsSeparatedByRegex:@":\\d+:"];
 	if ([components count] > 1) {
-		[self prettifyString:[components objectAtIndex:0]];
 		
 		[self.results addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-								 [self prettifyString:[components objectAtIndex:0]], @"file", 
-								 [self prettifyString:[components objectAtIndex:1]], @"match", nil]];
+								 [self prettifyString:[[components objectAtIndex:0] lastPathComponent]], @"file", 
+								 [self prettifyString:[components objectAtIndex:1] query:self.query], @"match", nil]];
 		[self.resultsTable reloadData];
 	}
 }
@@ -119,7 +151,6 @@
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
 	return [[self.results objectAtIndex:rowIndex] objectForKey:[aTableColumn identifier]];
-	NSLog(@"%@", [self.results objectAtIndex:rowIndex]); 
 }
 
 @end

@@ -19,6 +19,7 @@
 	NSButton *useGit;
 	NSButton *caseSensitive;
 	NSString *query;
+	NSTask *task;
 }
 
 @property (nonatomic, retain) IBOutlet NSButton *findButton;
@@ -32,7 +33,9 @@
 @property (nonatomic, retain) NSMutableString *buffer;
 
 - (IBAction)performFind:(id)sender;
-
+- (void)stopProcess;
+- (void)taskEnded:(NSNotification *)aNotification;
+- (void)addResult:(NSString *)aResult;
 
 @end
 
