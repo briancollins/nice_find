@@ -10,7 +10,7 @@
 #import "RegexKitLite.h"
 
 @implementation FindController
-@synthesize query, findButton, project, resultsTable, results, buffer;
+@synthesize query, findButton, project, resultsTable, results, buffer, useGit;
 
 - (void)windowDidLoad {
 	[self.window makeKeyAndOrderFront:self];
@@ -25,8 +25,19 @@
 	NSTask *task = [[NSTask alloc] init];
     [task setStandardOutput:[NSPipe pipe]];
     [task setStandardError:[task standardOutput]];
-    [task setLaunchPath:@"/usr/bin/grep"];
-    [task setArguments:[NSArray arrayWithObjects:@"-nr", q, directory,nil]];
+	
+	[task setLaunchPath:@"/usr/bin/env"];
+	[task setCurrentDirectoryPath:directory];
+	
+	NSMutableArray *args = [NSMutableArray array];
+	
+	if ([self useGitGrep]) {
+		[args addObjectsFromArray:[NSArray arrayWithObjects:@"git", @"grep", nil]];
+	} else
+		[args addObjectsFromArray:[NSArray arrayWithObjects:@"grep", @"-Ir", nil]];
+	
+	[args addObjectsFromArray:[NSArray arrayWithObjects:@"-n", @"-e", q, directory, nil]];
+	[task setArguments:args];
 	
     [[NSNotificationCenter defaultCenter] addObserver:self 
 											 selector:@selector(getData:) 
@@ -41,6 +52,10 @@
 	self.results = [NSMutableArray array];
 	self.buffer = [NSMutableString string];
 	[self find:[self.query stringValue] inDirectory:[self.project projectDirectory]];
+}
+
+- (BOOL)useGitGrep {
+	return [self.useGit state] == NSOnState;
 }
 	 
 - (void)getData:(NSNotification *)aNotification{
