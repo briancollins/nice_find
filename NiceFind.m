@@ -11,6 +11,7 @@
 #import "NiceFind.h"
 #import "MethodSwizzle.h"
 #import "GTMStackTrace.h"
+#import "FindController.h"
 
 @implementation NiceFind
 
@@ -26,27 +27,17 @@
 @end
 
 
-@interface OakProjectController : NSObject @end
-@interface OakProjectController (nice_find) @end
+@interface AppDelegate : NSObject @end
+@interface AppDelegate (nice_find) @end
 
-@implementation OakProjectController (nice_find)
+@implementation AppDelegate (nice_find)
 
-- (id)fip:(id)fp8 {
-	NSLog(@"%@", GTMStackTrace());
-	NSLog(@"input: %@", fp8);
-	id result = [self fip:fp8];
-	NSLog(@"result: %@", result);
-	return result;
+
+- (void)orderFrontFindInProjectPanel:(id)sender {
+	FindController *fc = [[FindController alloc] initWithWindowNibName:@"FindPanel"];
+	fc.project = [[[NSApplication sharedApplication] keyWindow] windowController];
+	[fc showWindow:self];
 }
-@end 
 
-@interface OakFindManager : NSObject @end
-@interface OakFindManager (nice_find) @end
-
-@implementation OakFindManager (nice_find)
-
-- (void)performFindInProjectActionNew:(id)obj {
-
-	[self performFindInProjectActionNew: obj];
-}
 @end
+

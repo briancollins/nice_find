@@ -11,8 +11,12 @@
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		91E48E5D0CC7F044004429E5 /* MethodSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 91E48E5C0CC7F044004429E5 /* MethodSwizzle.m */; };
+		D36371C41093DD620046C316 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = D36371C31093DD620046C316 /* RegexKitLite.m */; };
+		D36371C61093DD780046C316 /* libicucore.A.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D36371C51093DD780046C316 /* libicucore.A.dylib */; };
 		D3EBBD63109257AD00E682DE /* GTMStackTrace.m in Sources */ = {isa = PBXBuildFile; fileRef = D3EBBD62109257AD00E682DE /* GTMStackTrace.m */; };
 		D3EBBD7B109257D400E682DE /* GTMObjC2Runtime.m in Sources */ = {isa = PBXBuildFile; fileRef = D3EBBD7A109257D400E682DE /* GTMObjC2Runtime.m */; };
+		D3F79E0E1092C1AE00B0C203 /* FindController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F79E0D1092C1AE00B0C203 /* FindController.m */; };
+		D3F79E231092C3B600B0C203 /* FindPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3F79E221092C3B600B0C203 /* FindPanel.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,12 +32,19 @@
 		91E48E5B0CC7F044004429E5 /* MethodSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MethodSwizzle.h; sourceTree = "<group>"; };
 		91E48E5C0CC7F044004429E5 /* MethodSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MethodSwizzle.m; sourceTree = "<group>"; };
 		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		D36370C310938A270046C316 /* OakProjectController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OakProjectController.h; sourceTree = "<group>"; };
+		D36371C21093DD620046C316 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
+		D36371C31093DD620046C316 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
+		D36371C51093DD780046C316 /* libicucore.A.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.A.dylib; path = usr/lib/libicucore.A.dylib; sourceTree = SDKROOT; };
 		D3EBBD61109257AD00E682DE /* GTMStackTrace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMStackTrace.h; path = GTM/GTMStackTrace.h; sourceTree = "<group>"; };
 		D3EBBD62109257AD00E682DE /* GTMStackTrace.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = GTMStackTrace.m; path = GTM/GTMStackTrace.m; sourceTree = "<group>"; };
 		D3EBBD79109257D400E682DE /* GTMObjC2Runtime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMObjC2Runtime.h; path = GTM/GTMObjC2Runtime.h; sourceTree = "<group>"; };
 		D3EBBD7A109257D400E682DE /* GTMObjC2Runtime.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = GTMObjC2Runtime.m; path = GTM/GTMObjC2Runtime.m; sourceTree = "<group>"; };
 		D3EBBD7C109257E700E682DE /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMDefines.h; path = GTM/GTMDefines.h; sourceTree = "<group>"; };
 		D3EBBDC710925DA500E682DE /* class-dump.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "class-dump.mm"; path = "Doc/class-dump.mm"; sourceTree = "<group>"; };
+		D3F79E0C1092C1AE00B0C203 /* FindController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindController.h; sourceTree = "<group>"; };
+		D3F79E0D1092C1AE00B0C203 /* FindController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindController.m; sourceTree = "<group>"; };
+		D3F79E221092C3B600B0C203 /* FindPanel.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FindPanel.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,6 +53,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
+				D36371C61093DD780046C316 /* libicucore.A.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,6 +78,7 @@
 			children = (
 				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
 				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
+				D36371C51093DD780046C316 /* libicucore.A.dylib */,
 			);
 			name = "Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -75,6 +88,7 @@
 			children = (
 				8D5B49B7048680CD000E48DA /* Info.plist */,
 				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
+				D3F79E221092C3B600B0C203 /* FindPanel.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -82,9 +96,13 @@
 		08FB77AFFE84173DC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				D36371C01093DD460046C316 /* RegexKitLite */,
 				D3EBBD601092579B00E682DE /* GTM */,
 				177E4DA209132A0F0064163D /* NiceFind.m */,
 				177E4DA109132A0F0064163D /* NiceFind.h */,
+				D3F79E0C1092C1AE00B0C203 /* FindController.h */,
+				D3F79E0D1092C1AE00B0C203 /* FindController.m */,
+				D36370C310938A270046C316 /* OakProjectController.h */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -123,6 +141,15 @@
 				32DBCF630370AF2F00C91783 /* NiceFind_Prefix.pch */,
 			);
 			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		D36371C01093DD460046C316 /* RegexKitLite */ = {
+			isa = PBXGroup;
+			children = (
+				D36371C21093DD620046C316 /* RegexKitLite.h */,
+				D36371C31093DD620046C316 /* RegexKitLite.m */,
+			);
+			path = RegexKitLite;
 			sourceTree = "<group>";
 		};
 		D3EBBD601092579B00E682DE /* GTM */ = {
@@ -190,6 +217,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
+				D3F79E231092C3B600B0C203 /* FindPanel.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,6 +248,8 @@
 				91E48E5D0CC7F044004429E5 /* MethodSwizzle.m in Sources */,
 				D3EBBD63109257AD00E682DE /* GTMStackTrace.m in Sources */,
 				D3EBBD7B109257D400E682DE /* GTMObjC2Runtime.m in Sources */,
+				D3F79E0E1092C1AE00B0C203 /* FindController.m in Sources */,
+				D36371C41093DD620046C316 /* RegexKitLite.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -241,6 +271,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(DEVELOPER_DIR)/Local/Frameworks\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
@@ -262,6 +297,11 @@
 					ppc,
 					i386,
 				);
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(DEVELOPER_DIR)/Local/Frameworks\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
