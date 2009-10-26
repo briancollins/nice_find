@@ -24,9 +24,10 @@ static FindController *fc;
 }
 
 - (void)goToFile:(id)sender {
+	NSDictionary *row = [self.results objectAtIndex:[self.resultsTable selectedRow]];
 	[[[NSApplication sharedApplication] delegate] 
-	 openFiles:[NSArray arrayWithObject:[[self.results objectAtIndex:[self.resultsTable selectedRow]] objectForKey:@"path"]]];
-
+	 openFiles:[NSArray arrayWithObject:[row objectForKey:@"path"]]];
+	[[self.project textView] goToLineNumber:[row objectForKey:@"line"]];
 }
 
 - (id)initWithWindowNibName:(NSString *)windowNibName {
@@ -167,8 +168,8 @@ static FindController *fc;
 
 - (void)addResult:(NSString *)aResult { 
 	NSArray *components = [aResult componentsSeparatedByRegex:@":\\d+:"];
+	NSNumber *line = [NSNumber numberWithInt:[[aResult stringByMatching:@":(\\d+):" capture:1] intValue]];
 	if ([components count] > 1) {
-		NSLog(@"%@", [components objectAtIndex:0]);
 		NSString *filePath;
 		if ([self useGitGrep]) // git returns relative paths :(
 			filePath = [[self directory] stringByAppendingPathComponent:[components objectAtIndex:0]];
@@ -178,6 +179,7 @@ static FindController *fc;
 		[self.results addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 								 [self prettifyString:[[components objectAtIndex:0] lastPathComponent]], @"file",
 								 filePath, @"path",
+								 line, @"line",
 								 [self prettifyString:[components objectAtIndex:1] query:self.query], @"match", nil]];
 		[self.resultsTable reloadData];
 	}
