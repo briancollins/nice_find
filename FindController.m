@@ -44,6 +44,7 @@ static FindController *fc;
 - (void)show {
 	self.project = [[[NSApplication sharedApplication] keyWindow] windowController];
 	[self showWindow:self];
+	[self.window makeFirstResponder:self.queryField]; 
 }
 
 
@@ -177,7 +178,7 @@ static FindController *fc;
 			filePath = [components objectAtIndex:0];
 		
 		[self.results addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-								 [self prettifyString:[[components objectAtIndex:0] lastPathComponent]], @"file",
+								 [[components objectAtIndex:0] lastPathComponent], @"file",
 								 filePath, @"path",
 								 line, @"line",
 								 [self prettifyString:[components objectAtIndex:1] query:self.query], @"match", nil]];
