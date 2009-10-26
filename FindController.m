@@ -24,8 +24,9 @@ static FindController *fc;
 }
 
 - (void)goToFile:(id)sender {
-	
-	//[self.project revealInProject:[[self.results objectAtIndex:[self.resultsTable selectedRow]] objectForKey:@"file"]];
+	[[[NSApplication sharedApplication] delegate] 
+	 openFiles:[NSArray arrayWithObject:[[self.results objectAtIndex:[self.resultsTable selectedRow]] objectForKey:@"path"]]];
+
 }
 
 - (id)initWithWindowNibName:(NSString *)windowNibName {
@@ -97,12 +98,16 @@ static FindController *fc;
     [task launch];    
 }
 
+- (NSString *)directory {
+	return [self.project projectDirectory];
+}
+
 - (IBAction)performFind:(id)sender {
 	[self stopProcess];
 	self.results = [NSMutableArray array];
 	[self.resultsTable reloadData];
 	self.buffer = [NSMutableString string];
-	[self find:[self.queryField stringValue] inDirectory:[self.project projectDirectory]];
+	[self find:[self.queryField stringValue] inDirectory:[self directory]];
 }
 
 - (void)stopProcess {
@@ -163,9 +168,16 @@ static FindController *fc;
 - (void)addResult:(NSString *)aResult { 
 	NSArray *components = [aResult componentsSeparatedByRegex:@":\\d+:"];
 	if ([components count] > 1) {
+		NSLog(@"%@", [components objectAtIndex:0]);
+		NSString *filePath;
+		if ([self useGitGrep]) // git returns relative paths :(
+			filePath = [[self directory] stringByAppendingPathComponent:[components objectAtIndex:0]];
+		else
+			filePath = [components objectAtIndex:0];
 		
 		[self.results addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-								 [self prettifyString:[[components objectAtIndex:0] lastPathComponent]], @"file", 
+								 [self prettifyString:[[components objectAtIndex:0] lastPathComponent]], @"file",
+								 filePath, @"path",
 								 [self prettifyString:[components objectAtIndex:1] query:self.query], @"match", nil]];
 		[self.resultsTable reloadData];
 	}
