@@ -58,7 +58,7 @@ static FindController *fc;
 }
 
 - (BOOL)useRegex {
-	return [self.regex state] == NSOffState;
+	return [self.regex state] == NSOnState;
 }
 
 - (BOOL)useGitGrep {
@@ -89,10 +89,10 @@ static FindController *fc;
 	if (![self useCaseSensitive]) 
 		[args addObject:@"-i"];
 	
-	if ([self useRegex])
+	if (![self useRegex])
 		[args addObject:@"-F"];
 	
-	[args addObjectsFromArray:[NSArray arrayWithObjects:@"-n", @"-e", q, directory, nil]];
+	[args addObjectsFromArray:[NSArray arrayWithObjects:@"-n", @"-E", @"-e", q, directory, nil]];
 	[task setArguments:args];
 	
     [[NSNotificationCenter defaultCenter] addObserver:self 

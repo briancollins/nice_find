@@ -15,7 +15,7 @@
 - (NSArray *)rangesOfString:(NSString *)s caseless:(BOOL)caseless regex:(BOOL)regex {
 	NSMutableArray *ranges = [NSMutableArray array];
 	NSRange found;
-	NSRange searchRange = NSMakeRange(0, NSUIntegerMax);
+	NSRange searchRange = NSMakeRange(0, [self length]);
 	do {
 		if (regex)
 			found = [self rangeOfRegex:s
