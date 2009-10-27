@@ -11,6 +11,7 @@
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		91E48E5D0CC7F044004429E5 /* MethodSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 91E48E5C0CC7F044004429E5 /* MethodSwizzle.m */; };
+		D31E7DCD1096D27C008E9F8A /* NSStringExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = D31E7DCC1096D27C008E9F8A /* NSStringExtensions.m */; };
 		D36371C41093DD620046C316 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = D36371C31093DD620046C316 /* RegexKitLite.m */; };
 		D36371C61093DD780046C316 /* libicucore.A.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D36371C51093DD780046C316 /* libicucore.A.dylib */; };
 		D3EBBD63109257AD00E682DE /* GTMStackTrace.m in Sources */ = {isa = PBXBuildFile; fileRef = D3EBBD62109257AD00E682DE /* GTMStackTrace.m */; };
@@ -32,6 +33,8 @@
 		91E48E5B0CC7F044004429E5 /* MethodSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MethodSwizzle.h; sourceTree = "<group>"; };
 		91E48E5C0CC7F044004429E5 /* MethodSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MethodSwizzle.m; sourceTree = "<group>"; };
 		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		D31E7DCB1096D27C008E9F8A /* NSStringExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringExtensions.h; sourceTree = "<group>"; };
+		D31E7DCC1096D27C008E9F8A /* NSStringExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringExtensions.m; sourceTree = "<group>"; };
 		D36370C310938A270046C316 /* OakProjectController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OakProjectController.h; sourceTree = "<group>"; };
 		D36371C21093DD620046C316 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
 		D36371C31093DD620046C316 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
@@ -103,6 +106,8 @@
 				D3F79E0C1092C1AE00B0C203 /* FindController.h */,
 				D3F79E0D1092C1AE00B0C203 /* FindController.m */,
 				D36370C310938A270046C316 /* OakProjectController.h */,
+				D31E7DCB1096D27C008E9F8A /* NSStringExtensions.h */,
+				D31E7DCC1096D27C008E9F8A /* NSStringExtensions.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -250,6 +255,7 @@
 				D3EBBD7B109257D400E682DE /* GTMObjC2Runtime.m in Sources */,
 				D3F79E0E1092C1AE00B0C203 /* FindController.m in Sources */,
 				D36371C41093DD620046C316 /* RegexKitLite.m in Sources */,
+				D31E7DCD1096D27C008E9F8A /* NSStringExtensions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -317,6 +323,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
@@ -328,6 +335,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;

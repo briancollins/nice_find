@@ -16,7 +16,8 @@
 	NSMutableArray *results;
 	OakProjectController *project;
 	NSMutableString *buffer;
-	NSButton *useGit;
+	NSButton *gitGrep;
+	NSButton *regex;
 	NSButton *caseSensitive;
 	NSString *query;
 	NSTask *task;
@@ -25,7 +26,8 @@
 @property (nonatomic, retain) IBOutlet NSButton *findButton;
 @property (nonatomic, retain) IBOutlet NSTextField *queryField;
 @property (nonatomic, retain) IBOutlet NSTableView *resultsTable;
-@property (nonatomic, retain) IBOutlet NSButton *useGit;
+@property (nonatomic, retain) IBOutlet NSButton *gitGrep;
+@property (nonatomic, retain) IBOutlet NSButton *regex;
 @property (nonatomic, retain) IBOutlet NSButton *caseSensitive;
 @property (nonatomic, retain) NSString *query;
 @property (nonatomic, retain) OakProjectController *project;

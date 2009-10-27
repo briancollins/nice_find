@@ -8,9 +8,10 @@
 
 #import "FindController.h"
 #import "RegexKitLite.h"
+#import "NSStringExtensions.h"
 
 @implementation FindController
-@synthesize query, findButton, project, resultsTable, queryField, results, buffer, useGit, caseSensitive;
+@synthesize query, findButton, project, resultsTable, queryField, results, buffer, gitGrep, caseSensitive, regex;
 
 static FindController *fc;
 
@@ -56,14 +57,18 @@ static FindController *fc;
 	[self performFind:self];
 }
 
+- (BOOL)useRegex {
+	return [self.regex state] == NSOffState;
+}
 
 - (BOOL)useGitGrep {
-	return [self.useGit state] == NSOnState;
+	return [self.gitGrep state] == NSOnState;
 }
 
 - (BOOL)useCaseSensitive {
 	return [self.caseSensitive state] == NSOnState;
 }
+
 
 - (void)find:(NSString *)q inDirectory:(NSString *)directory {
 	self.query = q;
@@ -83,7 +88,10 @@ static FindController *fc;
 	
 	if (![self useCaseSensitive]) 
 		[args addObject:@"-i"];
-		
+	
+	if ([self useRegex])
+		[args addObject:@"-F"];
+	
 	[args addObjectsFromArray:[NSArray arrayWithObjects:@"-n", @"-e", q, directory, nil]];
 	[task setArguments:args];
 	
@@ -107,8 +115,10 @@ static FindController *fc;
 - (IBAction)performFind:(id)sender {
 	[self stopProcess];
 	self.results = [NSMutableArray array];
-	[self.resultsTable reloadData];
 	self.buffer = [NSMutableString string];
+	
+	[self.resultsTable reloadData];
+	
 	[self find:[self.queryField stringValue] inDirectory:[self directory]];
 }
 
@@ -142,29 +152,20 @@ static FindController *fc;
 }
 
 
-- (NSAttributedString *)prettifyString:(NSString *)s query:(NSString *)q {
+- (NSAttributedString *)prettifyString:(NSString *)s range:(NSString *)range {
 	NSMutableAttributedString *pretty = [[NSMutableAttributedString alloc] initWithString:s attributes:
 										 [NSDictionary dictionaryWithObject:[self font] forKey:NSFontAttributeName]];
 
 
-	if (q != nil) {
-		NSRange range = NSMakeRange(0, NSUIntegerMax);
-		NSRange found;
-		while (range.location < [s length] &&
-			   (found = [s rangeOfRegex:q options:RKLCaseless inRange:range capture:0 error:nil]).location != NSNotFound) {
-
-			[pretty setAttributes:[NSDictionary dictionaryWithObject:[self bold] forKey:NSFontAttributeName] range:found];
-			range.location = found.location + found.length;
-			range.length = [s length] - range.location;
-		}
+	if (range) {
+		NSRange r = NSRangeFromString(range);
+		[pretty setAttributes:[NSDictionary dictionaryWithObject:[self bold] forKey:NSFontAttributeName] range:r];
 	}
 	
 	return pretty;
 }
 
-- (NSAttributedString *)prettifyString:(NSString *)s { 
-	return [self prettifyString:s query:nil];
-}
+
 
 
 - (void)addResult:(NSString *)aResult { 
@@ -177,12 +178,14 @@ static FindController *fc;
 		else
 			filePath = [components objectAtIndex:0];
 		
-		[self.results addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-								 [[components objectAtIndex:0] lastPathComponent], @"file",
-								 filePath, @"path",
-								 line, @"line",
-								 [self prettifyString:[components objectAtIndex:1] query:self.query], @"match", nil]];
-		[self.resultsTable reloadData];
+		for (NSString *range in [[components objectAtIndex:1] rangesOfString:self.query caseless:![self useCaseSensitive] regex:[self useRegex]]) {
+			[self.results addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+									 [filePath lastPathComponent], @"file",
+									 filePath, @"path",
+									 line, @"line",
+									 [self prettifyString:[components objectAtIndex:1] range:range], @"match", nil]];
+			[self.resultsTable reloadData];
+		}
 	}
 }
 
