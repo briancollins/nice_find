@@ -20,6 +20,7 @@
 	NSButton *regex;
 	NSButton *caseSensitive;
 	NSString *query;
+	NSProgressIndicator *spinner;
 	NSTask *task;
 }
 
@@ -29,6 +30,7 @@
 @property (nonatomic, retain) IBOutlet NSButton *gitGrep;
 @property (nonatomic, retain) IBOutlet NSButton *regex;
 @property (nonatomic, retain) IBOutlet NSButton *caseSensitive;
+@property (nonatomic, retain) IBOutlet NSProgressIndicator *spinner;
 @property (nonatomic, retain) NSString *query;
 @property (nonatomic, retain) OakProjectController *project;
 @property (nonatomic, retain) NSMutableArray *results;

@@ -11,7 +11,7 @@
 #import "NSStringExtensions.h"
 
 @implementation FindController
-@synthesize query, findButton, project, resultsTable, queryField, results, buffer, gitGrep, caseSensitive, regex;
+@synthesize query, findButton, project, resultsTable, queryField, results, buffer, gitGrep, caseSensitive, regex, spinner;
 
 static FindController *fc;
 
@@ -120,7 +120,9 @@ static FindController *fc;
 }
 
 - (IBAction)performFind:(id)sender {
+
 	[self stopProcess];
+	[self.spinner startAnimation:self];
 	self.results = [NSMutableArray array];
 	self.buffer = [NSMutableString string];
 	
@@ -130,11 +132,13 @@ static FindController *fc;
 }
 
 - (void)stopProcess {
+	[self.spinner stopAnimation:self];
 	[[[task standardOutput] fileHandleForReading] closeFile];
 	[task terminate];
 }
 
 - (void)taskEnded:(NSNotification *)aNotification {
+	[self.spinner stopAnimation:self];
 	[[[[aNotification object] standardOutput] fileHandleForReading] closeFile];
 	[self addResult:self.buffer];
 }
@@ -162,7 +166,6 @@ static FindController *fc;
 - (NSAttributedString *)prettifyString:(NSString *)s range:(NSString *)range {
 	NSMutableAttributedString *pretty = [[NSMutableAttributedString alloc] initWithString:s attributes:
 										 [NSDictionary dictionaryWithObject:[self font] forKey:NSFontAttributeName]];
-
 
 	if (range) {
 		NSRange r = NSRangeFromString(range);
