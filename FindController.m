@@ -29,6 +29,10 @@ static FindController *fc;
 	[[[NSApplication sharedApplication] delegate] 
 	 openFiles:[NSArray arrayWithObject:[row objectForKey:@"path"]]];
 	[[self.project textView] goToLineNumber:[row objectForKey:@"line"]];
+	NSRange r = NSRangeFromString([row objectForKey:@"range"]);
+	[[self.project textView] goToColumnNumber:[NSNumber numberWithInt:r.location + 1]];
+	[[self.project textView] selectToLine:[row objectForKey:@"line"] 
+								andColumn:[NSNumber numberWithInt:r.location + r.length + 1]];
 }
 
 - (id)initWithWindowNibName:(NSString *)windowNibName {
@@ -91,8 +95,11 @@ static FindController *fc;
 	
 	if (![self useRegex])
 		[args addObject:@"-F"];
+	else 
+		[args addObject:@"-E"];
+
 	
-	[args addObjectsFromArray:[NSArray arrayWithObjects:@"-n", @"-E", @"-e", q, directory, nil]];
+	[args addObjectsFromArray:[NSArray arrayWithObjects:@"-n", @"-e", q, directory, nil]];
 	[task setArguments:args];
 	
     [[NSNotificationCenter defaultCenter] addObserver:self 
@@ -183,6 +190,7 @@ static FindController *fc;
 									 [filePath lastPathComponent], @"file",
 									 filePath, @"path",
 									 line, @"line",
+									 range, @"range",
 									 [self prettifyString:[components objectAtIndex:1] range:range], @"match", nil]];
 			[self.resultsTable reloadData];
 		}
