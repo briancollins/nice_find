@@ -88,14 +88,20 @@ static FindController *fc;
 	if (filePattern)
 		return filePattern;
 	else
-		return filePattern = [[[NSUserDefaults standardUserDefaults] stringForKey:@"OakFolderReferenceFilePattern"] substringFromIndex:1];
+		return filePattern = [[[[NSUserDefaults standardUserDefaults] stringForKey:@"OakFolderReferenceFilePattern"] substringFromIndex:1] retain];
 }
 
 - (NSString *)folderPattern {
 	if (folderPattern) 
 		return folderPattern;
 	else
-		return folderPattern = [[[NSUserDefaults standardUserDefaults] stringForKey:@"OakFolderReferenceFolderPattern"] substringFromIndex:1];	
+		return folderPattern = [[[[NSUserDefaults standardUserDefaults] stringForKey:@"OakFolderReferenceFolderPattern"] substringFromIndex:1] retain];	
+}
+
+- (void)dealloc {
+	[folderPattern release];
+	[filePattern release];
+	[super dealloc];
 }
 
 - (void)textFieldDidEndEditing:(NSTextField *)textField {
