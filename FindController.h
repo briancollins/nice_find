@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "OakProjectController.h"
+#import "TextMate.h"
 
 @interface FindController : NSWindowController {
 	NSButton *findButton;
@@ -41,6 +41,7 @@
 - (void)stopProcess;
 - (void)taskEnded:(NSNotification *)aNotification;
 - (void)addResult:(NSString *)aResult;
+- (void)show;
 
 @end
 

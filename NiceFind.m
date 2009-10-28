@@ -27,7 +27,6 @@
 @end
 
 
-@interface AppDelegate : NSObject @end
 @interface AppDelegate (nice_find) @end
 
 @implementation AppDelegate (nice_find)

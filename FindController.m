@@ -10,7 +10,6 @@
 #import "RegexKitLite.h"
 #import "NSStringExtensions.h"
 
-
 @implementation FindController
 @synthesize query, findButton, project, resultsTable, queryField, results, buffer, gitGrep, caseSensitive, regex, spinner;
 
@@ -29,23 +28,19 @@ static FindController *fc;
 	NSDictionary *row = [self.results objectAtIndex:[self.resultsTable selectedRow]];
 	[[[NSApplication sharedApplication] delegate] 
 	 openFiles:[NSArray arrayWithObject:[row objectForKey:@"path"]]];
-	[[self.project textView] goToLineNumber:[row objectForKey:@"line"]];
+	[(OakTextView *)[self.project textView] goToLineNumber:[row objectForKey:@"line"]];
 	NSRange r = NSRangeFromString([row objectForKey:@"range"]);
 	[[self.project textView] goToColumnNumber:[NSNumber numberWithInt:r.location + 1]];
 	[[self.project textView] selectToLine:[row objectForKey:@"line"] 
 								andColumn:[NSNumber numberWithInt:r.location + r.length + 1]];
 }
 
-- (void)windowDidLoad {
-	[self.resultsTable setDoubleAction:@selector(goToFile:)];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidBecomeKey:)
-												 name:NSWindowDidBecomeKeyNotification object:self.window];
-	[self show];
+- (BOOL)isGitProject:(OakProjectController *)p {
+	return [[NSFileManager defaultManager] fileExistsAtPath:
+			[[p projectDirectory] stringByAppendingPathComponent:@".git"]];
 }
 
-- (void)show {
-
-	
+- (void)show {	
 	[self.window makeFirstResponder:self.queryField]; 
 	for (NSWindow *w in [[NSApplication sharedApplication] orderedWindows]) {
 		if ([[[w windowController] className] isEqualToString: @"OakProjectController"] &&
@@ -56,14 +51,26 @@ static FindController *fc;
 	}
 	
 	if (self.project) {
+		if (![self isGitProject:self.project]) {
+			[self.gitGrep setState:NSOffState];
+			[self.gitGrep setHidden:YES];
+		} else {
+			[self.gitGrep setHidden:NO];
+		}
 		[self showWindow:self];		
 	} else {
 		[self close];
 		[[[NSApplication sharedApplication] delegate] orderFrontFindPanel:self];
 	}
-	
-
 }
+
+
+- (void)windowDidLoad {
+	[self.resultsTable setDoubleAction:@selector(goToFile:)];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidBecomeKey:)
+												 name:NSWindowDidBecomeKeyNotification object:self.window];
+}
+
 
 - (void)windowDidBecomeKey:(NSNotification *)notification {
 	[self show];
@@ -73,10 +80,8 @@ static FindController *fc;
 	project = p;
 }
 
-
-
 - (id)font {
-	return [[objc_getClass("OakFontsAndColorsController") sharedInstance] font];
+	return [[OakFontsAndColorsController sharedInstance] font];
 }
 
 - (void)textFieldDidEndEditing:(NSTextField *)textField {
