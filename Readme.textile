@@ -6,9 +6,9 @@ Aim: Provide the speed of git-grep (or normal grep) to TextMate projects.
 
 h2. Why?
 
-In the beginning you had to wait for hours while TextMate synchronously searched your project. Crashes occurred whenever it encountered a large file or was bored. Then came the grep bundles. They were good, but unfortunately they suffered the limitations of the TextMate bundle system. 
+*In the beginning* you had to stare at the beachball while TextMate searched synchronously through your project. Crashes occurred whenever it encountered a large file or was bored. Then came the grep bundles. They were good, but unfortunately they suffered the limitations of the TextMate bundle system. 
 
-_nice_find_ is a TextMate plugin that is written in Objective C and interacts directly with TextMate. It uses grep (or git-grep where available). As a result it is  much faster, much more intuitive, and has a much more native look and feel than the bundles.
+_nice_find_ is a TextMate plugin that is written in Objective C and interacts directly with TextMate. It uses grep (or git-grep where available). As a result it is faster, more intuitive, and has a native look and feel that is the envy of all the bundles.
 
 h2. How?
 
