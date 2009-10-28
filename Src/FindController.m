@@ -84,6 +84,20 @@ static FindController *fc;
 	return [[OakFontsAndColorsController sharedInstance] font];
 }
 
+- (NSString *)filePattern {
+	if (filePattern)
+		return filePattern;
+	else
+		return filePattern = [[[NSUserDefaults standardUserDefaults] stringForKey:@"OakFolderReferenceFilePattern"] substringFromIndex:1];
+}
+
+- (NSString *)folderPattern {
+	if (folderPattern) 
+		return folderPattern;
+	else
+		return folderPattern = [[[NSUserDefaults standardUserDefaults] stringForKey:@"OakFolderReferenceFolderPattern"] substringFromIndex:1];	
+}
+
 - (void)textFieldDidEndEditing:(NSTextField *)textField {
 	[self performFind:self];
 }
@@ -216,6 +230,11 @@ static FindController *fc;
 			filePath = [[self directory] stringByAppendingPathComponent:[components objectAtIndex:0]];
 		else
 			filePath = [components objectAtIndex:0];
+		
+		if ([filePath isMatchedByRegex:[self filePattern]] ||
+			[[filePath stringByDeletingLastPathComponent] isMatchedByRegex:[self folderPattern]]) {
+			return;
+		}			
 		
 		for (NSString *range in [[components objectAtIndex:1] rangesOfString:self.query caseless:![self useCaseSensitive] regex:[self useRegex]]) {
 			[self.results addObject:[NSDictionary dictionaryWithObjectsAndKeys:

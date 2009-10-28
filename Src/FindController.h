@@ -22,6 +22,8 @@
 	NSString *query;
 	NSProgressIndicator *spinner;
 	NSTask *task;
+	NSString *filePattern;
+	NSString *folderPattern;
 }
 
 @property (nonatomic, retain) IBOutlet NSButton *findButton;
