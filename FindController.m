@@ -190,8 +190,8 @@ static FindController *fc;
 
 
 - (NSAttributedString *)prettifyString:(NSString *)s range:(NSString *)range {
-	NSMutableAttributedString *pretty = [[NSMutableAttributedString alloc] initWithString:s attributes:
-										 [NSDictionary dictionaryWithObject:[self font] forKey:NSFontAttributeName]];
+	NSMutableAttributedString *pretty = [[[NSMutableAttributedString alloc] initWithString:s attributes:
+										 [NSDictionary dictionaryWithObject:[self font] forKey:NSFontAttributeName]] autorelease];
 
 	if (range) {
 		NSRange r = NSRangeFromString(range);
