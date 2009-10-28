@@ -9,4 +9,3 @@ build/*
 # osx noise
 .DS_Store
 profile
-google-toolbox-for-mac/*
