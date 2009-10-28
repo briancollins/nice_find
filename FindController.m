@@ -40,21 +40,33 @@ static FindController *fc;
 	[self.resultsTable setDoubleAction:@selector(goToFile:)];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidBecomeKey:)
 												 name:NSWindowDidBecomeKeyNotification object:self.window];
+	[self show];
 }
 
 - (void)show {
-	[self showWindow:self];
+
+	
 	[self.window makeFirstResponder:self.queryField]; 
-
-}
-
-- (void)windowDidBecomeKey:(NSNotification *)notification {
 	for (NSWindow *w in [[NSApplication sharedApplication] orderedWindows]) {
-		if ([[[w windowController] className] isEqualToString: @"OakProjectController"]) {
+		if ([[[w windowController] className] isEqualToString: @"OakProjectController"] &&
+			[[w windowController] projectDirectory]) {
 			self.project = [w windowController];
 			break;
 		}
 	}
+	
+	if (self.project) {
+		[self showWindow:self];		
+	} else {
+		[self close];
+		[[[NSApplication sharedApplication] delegate] orderFrontFindPanel:self];
+	}
+	
+
+}
+
+- (void)windowDidBecomeKey:(NSNotification *)notification {
+	[self show];
 }
 
 - (void)setProject:(OakProjectController *)p {
