@@ -100,6 +100,9 @@ static FindController *fc;
 	return [self.caseSensitive state] == NSOnState;
 }
 
+- (NSString *)grepPath {
+	return [[[NSBundle bundleForClass:self.class] resourcePath] stringByAppendingPathComponent:@"grep"];
+}
 
 - (void)find:(NSString *)q inDirectory:(NSString *)directory {
 	self.query = q;
@@ -107,15 +110,18 @@ static FindController *fc;
     [task setStandardOutput:[NSPipe pipe]];
     [task setStandardError:[task standardOutput]];
 	
-	[task setLaunchPath:@"/usr/bin/env"];
+
 	[task setCurrentDirectoryPath:directory];
 	
 	NSMutableArray *args = [NSMutableArray array];
 	
 	if ([self useGitGrep]) {
+		[task setLaunchPath:@"/usr/bin/env"];
 		[args addObjectsFromArray:[NSArray arrayWithObjects:@"git", @"grep", nil]];
-	} else
-		[args addObjectsFromArray:[NSArray arrayWithObjects:@"grep", @"-Ir", nil]];
+	} else {
+		[task setLaunchPath:[self grepPath]];
+		[args addObjectsFromArray:[NSArray arrayWithObjects:@"-Ir", @"--exclude-dir=.svn", @"--exclude-dir=.git", nil]];
+	}
 	
 	if (![self useCaseSensitive]) 
 		[args addObject:@"-i"];
@@ -200,9 +206,6 @@ static FindController *fc;
 	
 	return pretty;
 }
-
-
-
 
 - (void)addResult:(NSString *)aResult { 
 	NSArray *components = [aResult componentsSeparatedByRegex:@":\\d+:"];

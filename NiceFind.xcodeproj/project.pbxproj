@@ -15,6 +15,7 @@
 		D36371C41093DD620046C316 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = D36371C31093DD620046C316 /* RegexKitLite.m */; };
 		D36371C61093DD780046C316 /* libicucore.A.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D36371C51093DD780046C316 /* libicucore.A.dylib */; };
 		D3CD3D4F1097E5CF005EAC96 /* MIT_LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = D3CD3D4E1097E5CF005EAC96 /* MIT_LICENSE */; };
+		D3CD3DCC10980AC9005EAC96 /* grep in Resources */ = {isa = PBXBuildFile; fileRef = D3CD3DCB10980AC9005EAC96 /* grep */; };
 		D3EBBD63109257AD00E682DE /* GTMStackTrace.m in Sources */ = {isa = PBXBuildFile; fileRef = D3EBBD62109257AD00E682DE /* GTMStackTrace.m */; };
 		D3EBBD7B109257D400E682DE /* GTMObjC2Runtime.m in Sources */ = {isa = PBXBuildFile; fileRef = D3EBBD7A109257D400E682DE /* GTMObjC2Runtime.m */; };
 		D3F79E0E1092C1AE00B0C203 /* FindController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F79E0D1092C1AE00B0C203 /* FindController.m */; };
@@ -41,6 +42,7 @@
 		D36371C51093DD780046C316 /* libicucore.A.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.A.dylib; path = usr/lib/libicucore.A.dylib; sourceTree = SDKROOT; };
 		D3CD3D071097E3CA005EAC96 /* TextMate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextMate.h; sourceTree = "<group>"; };
 		D3CD3D4E1097E5CF005EAC96 /* MIT_LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MIT_LICENSE; sourceTree = "<group>"; };
+		D3CD3DCB10980AC9005EAC96 /* grep */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = grep; sourceTree = "<group>"; };
 		D3EBBD61109257AD00E682DE /* GTMStackTrace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMStackTrace.h; path = GTM/GTMStackTrace.h; sourceTree = "<group>"; };
 		D3EBBD62109257AD00E682DE /* GTMStackTrace.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = GTMStackTrace.m; path = GTM/GTMStackTrace.m; sourceTree = "<group>"; };
 		D3EBBD79109257D400E682DE /* GTMObjC2Runtime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMObjC2Runtime.h; path = GTM/GTMObjC2Runtime.h; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 		089C167CFE841241C02AAC07 /* Res */ = {
 			isa = PBXGroup;
 			children = (
+				D3CD3DCB10980AC9005EAC96 /* grep */,
 				D3F79E221092C3B600B0C203 /* FindPanel.xib */,
 			);
 			path = Res;
@@ -227,6 +230,7 @@
 				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
 				D3F79E231092C3B600B0C203 /* FindPanel.xib in Resources */,
 				D3CD3D4F1097E5CF005EAC96 /* MIT_LICENSE in Resources */,
+				D3CD3DCC10980AC9005EAC96 /* grep in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
