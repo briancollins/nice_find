@@ -10,6 +10,7 @@
 #import "RegexKitLite.h"
 #import "NSStringExtensions.h"
 
+
 @implementation FindController
 @synthesize query, findButton, project, resultsTable, queryField, results, buffer, gitGrep, caseSensitive, regex, spinner;
 
@@ -35,22 +36,31 @@ static FindController *fc;
 								andColumn:[NSNumber numberWithInt:r.location + r.length + 1]];
 }
 
-- (id)initWithWindowNibName:(NSString *)windowNibName {
-	if (self = [super initWithWindowNibName:windowNibName]) {
-
-	}
-	return self;
-}
-
 - (void)windowDidLoad {
 	[self.resultsTable setDoubleAction:@selector(goToFile:)];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidBecomeKey:)
+												 name:NSWindowDidBecomeKeyNotification object:self.window];
 }
 
 - (void)show {
-	self.project = [[[NSApplication sharedApplication] keyWindow] windowController];
 	[self showWindow:self];
 	[self.window makeFirstResponder:self.queryField]; 
+
 }
+
+- (void)windowDidBecomeKey:(NSNotification *)notification {
+	for (NSWindow *w in [[NSApplication sharedApplication] orderedWindows]) {
+		if ([[[w windowController] className] isEqualToString: @"OakProjectController"]) {
+			self.project = [w windowController];
+			break;
+		}
+	}
+}
+
+- (void)setProject:(OakProjectController *)p {
+	project = p;
+}
+
 
 
 - (id)font {
@@ -120,7 +130,6 @@ static FindController *fc;
 }
 
 - (IBAction)performFind:(id)sender {
-
 	[self stopProcess];
 	[self.spinner startAnimation:self];
 	self.results = [NSMutableArray array];
