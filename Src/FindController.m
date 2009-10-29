@@ -205,7 +205,6 @@ static FindController *fc;
 	NSData *data = [[aNotification userInfo] objectForKey:NSFileHandleNotificationDataItem];
 	if ([data length] == 0) {
 		[self stopProcess];
-		[self close];
 		return;
 	}
 	
