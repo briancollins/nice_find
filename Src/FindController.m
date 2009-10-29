@@ -11,7 +11,7 @@
 #import "NSStringExtensions.h"
 
 @implementation FindController
-@synthesize query, findButton, project, resultsTable, queryField, results, buffer, gitGrep, caseSensitive, regex, spinner;
+@synthesize query, findButton, project, resultsTable, queryField, results, buffer, gitGrep, caseSensitive, regex, spinner, resultsCount;
 
 static FindController *fc;
 
@@ -180,8 +180,10 @@ static FindController *fc;
 	[self stopProcess];
 	[self.spinner startAnimation:self];
 	self.results = [NSMutableArray array];
+
 	self.buffer = [NSMutableString string];
-	
+
+	[self updateResultsCount];
 	[self.resultsTable reloadData];
 	
 	[self find:[self.queryField stringValue] inDirectory:[self directory]];
@@ -237,6 +239,15 @@ static FindController *fc;
 	return pretty;
 }
 
+- (void)updateResultsCount {
+	[self.resultsCount setHidden:NO];
+	int c = [self.results count];
+	if (c == 1)
+		[self.resultsCount setStringValue:@"1 result"];
+	else 
+		[self.resultsCount setStringValue:[NSString stringWithFormat:@"%d results", c]];
+}
+
 - (void)addResult:(NSString *)aResult { 
 	NSArray *components = [aResult componentsSeparatedByRegex:@":\\d+:"];
 	NSNumber *line = [NSNumber numberWithInt:[[aResult stringByMatching:@":(\\d+):" capture:1] intValue]];
@@ -260,7 +271,9 @@ static FindController *fc;
 									 range, @"range",
 									 [self prettifyString:[components objectAtIndex:1] range:range], @"match", nil]];
 			[self.resultsTable reloadData];
+			[self updateResultsCount];
 		}
+		[self.resultsTable reloadDataForRowIndexes:nil columnIndexes:nil];
 	}
 }
 

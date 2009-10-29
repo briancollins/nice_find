@@ -13,6 +13,7 @@
 	NSButton *findButton;
 	NSTextField *queryField;
 	NSTableView *resultsTable;
+	NSTextField *resultsCount;
 	NSMutableArray *results;
 	OakProjectController *project;
 	NSMutableString *buffer;
@@ -33,6 +34,7 @@
 @property (nonatomic, retain) IBOutlet NSButton *regex;
 @property (nonatomic, retain) IBOutlet NSButton *caseSensitive;
 @property (nonatomic, retain) IBOutlet NSProgressIndicator *spinner;
+@property (nonatomic, retain) IBOutlet NSTextField *resultsCount;
 @property (nonatomic, retain) NSString *query;
 @property (nonatomic, retain) OakProjectController *project;
 @property (nonatomic, retain) NSMutableArray *results;
@@ -44,6 +46,7 @@
 - (void)taskEnded:(NSNotification *)aNotification;
 - (void)addResult:(NSString *)aResult;
 - (void)show;
+- (void)updateResultsCount;
 
 @end
 
