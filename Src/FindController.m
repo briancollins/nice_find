@@ -84,6 +84,10 @@ static FindController *fc;
 	return [[OakFontsAndColorsController sharedInstance] font];
 }
 
+- (NSString *)projectFile { // if using a tmproj file
+	return [[self.project environmentVariables] objectForKey:@"TM_PROJECT_FILEPATH"];
+}
+
 - (NSString *)filePattern {
 	if (filePattern)
 		return filePattern;
@@ -187,6 +191,8 @@ static FindController *fc;
 	[self.spinner stopAnimation:self];
 	[[[task standardOutput] fileHandleForReading] closeFile];
 	[task terminate];
+	[task release];
+	task = nil;
 }
 
 - (void)taskEnded:(NSNotification *)aNotification {
@@ -197,7 +203,12 @@ static FindController *fc;
 	 
 - (void)getData:(NSNotification *)aNotification{
 	NSData *data = [[aNotification userInfo] objectForKey:NSFileHandleNotificationDataItem];
-
+	if ([data length] == 0) {
+		[self stopProcess];
+		[self close];
+		return;
+	}
+	
 	[self.buffer appendString:[[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease]];
 	NSArray *parts = [self.buffer componentsSeparatedByString:@"\n"];
 	if ([parts count] > 1) {
