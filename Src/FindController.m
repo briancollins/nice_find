@@ -42,6 +42,7 @@ static FindController *fc;
 
 - (void)show {	
 	[self.window makeFirstResponder:self.queryField]; 
+	self.project = nil;
 	for (NSWindow *w in [[NSApplication sharedApplication] orderedWindows]) {
 		if ([[[w windowController] className] isEqualToString: @"OakProjectController"] &&
 			[[w windowController] projectDirectory]) {
