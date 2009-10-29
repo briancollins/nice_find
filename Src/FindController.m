@@ -273,7 +273,6 @@ static FindController *fc;
 			[self.resultsTable reloadData];
 			[self updateResultsCount];
 		}
-		[self.resultsTable reloadDataForRowIndexes:nil columnIndexes:nil];
 	}
 }
 

@@ -4,7 +4,9 @@ h3. A replacement for TextMate's Find In Project
 
 Aim: Provide the speed of git-grep (or normal grep) to TextMate projects.  
 
-"Screenshot":http://imgur.com/zvQYa.png
+"Screenshot":http://imgur.com/BFOgt.png
+
+"Download":http://cloud.github.com/downloads/briancollins/nice_find/NiceFind.tmplugin.zip
 
 h2. Why?
 
@@ -21,4 +23,4 @@ In a TextMate project, hit command-shift-f and use the find dialog normally.
 h2. Limitations
 
 No replace support yet, but soon.
-No support for multi-line regexes yet, but also soon.
+No support for multi-line regular expressions yet, but also soon.

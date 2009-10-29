@@ -123,13 +123,13 @@
 										<object class="NSTableView" id="903818142">
 											<reference key="NSNextResponder" ref="738757135"/>
 											<int key="NSvFlags">256</int>
-											<string key="NSFrameSize">{701, 178}</string>
+											<string key="NSFrameSize">{659, 176}</string>
 											<reference key="NSSuperview" ref="738757135"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSTableHeaderView" key="NSHeaderView" id="286397915">
 												<reference key="NSNextResponder" ref="1037417320"/>
 												<int key="NSvFlags">256</int>
-												<string key="NSFrameSize">{701, 17}</string>
+												<string key="NSFrameSize">{659, 17}</string>
 												<reference key="NSSuperview" ref="1037417320"/>
 												<reference key="NSTableView" ref="903818142"/>
 											</object>
@@ -194,7 +194,7 @@
 												</object>
 												<object class="NSTableColumn" id="536420074">
 													<string key="NSIdentifier">match</string>
-													<double key="NSWidth">556</double>
+													<double key="NSWidth">514</double>
 													<double key="NSMinWidth">40</double>
 													<double key="NSMaxWidth">1000</double>
 													<object class="NSTableHeaderCell" key="NSHeaderCell">
@@ -242,7 +242,7 @@
 											<int key="NSTableViewDraggingDestinationStyle">0</int>
 										</object>
 									</object>
-									<string key="NSFrame">{{1, 17}, {701, 178}}</string>
+									<string key="NSFrame">{{1, 17}, {659, 176}}</string>
 									<reference key="NSSuperview" ref="937891049"/>
 									<reference key="NSNextKeyView" ref="903818142"/>
 									<reference key="NSDocView" ref="903818142"/>
@@ -275,7 +275,7 @@
 										<bool key="EncodedWithXMLCoder">YES</bool>
 										<reference ref="286397915"/>
 									</object>
-									<string key="NSFrame">{{1, 0}, {701, 17}}</string>
+									<string key="NSFrame">{{1, 0}, {659, 17}}</string>
 									<reference key="NSSuperview" ref="937891049"/>
 									<reference key="NSNextKeyView" ref="286397915"/>
 									<reference key="NSDocView" ref="286397915"/>
@@ -284,7 +284,7 @@
 								</object>
 								<reference ref="302515326"/>
 							</object>
-							<string key="NSFrame">{{-1, 20}, {703, 196}}</string>
+							<string key="NSFrame">{{20, 22}, {661, 194}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSNextKeyView" ref="738757135"/>
 							<int key="NSsFlags">562</int>
@@ -378,7 +378,7 @@
 						<object class="NSTextField" id="647942863">
 							<reference key="NSNextResponder" ref="1006"/>
 							<int key="NSvFlags">-2147483356</int>
-							<string key="NSFrame">{{2, 2}, {242, 17}}</string>
+							<string key="NSFrame">{{17, 3}, {242, 17}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="101700952">
@@ -554,13 +554,13 @@
 						<reference key="object" ref="1006"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="937891049"/>
 							<reference ref="234204817"/>
 							<reference ref="29780196"/>
 							<reference ref="913934093"/>
 							<reference ref="425968650"/>
 							<reference ref="665898483"/>
 							<reference ref="1015011841"/>
+							<reference ref="937891049"/>
 							<reference ref="647942863"/>
 						</object>
 						<reference key="parent" ref="1005"/>
