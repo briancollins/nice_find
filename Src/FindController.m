@@ -45,7 +45,6 @@ static FindController *fc;
 	if (newParent != self.parentWindow) {
 		NSString *offsetString;
 		NSRect rect = self.window.frame;
-		
 		if (!self.rememberedPositions)
 			self.rememberedPositions = [NSMutableDictionary dictionary];
 
@@ -112,6 +111,7 @@ static FindController *fc;
 
 - (void)windowDidLoad {
 	[self.resultsTable setDoubleAction:@selector(goToFile:)];
+	[self.window setCollectionBehavior:NSWindowCollectionBehaviorMoveToActiveSpace];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidBecomeKey:)
 												 name:NSWindowDidBecomeKeyNotification object:self.window];
 }
