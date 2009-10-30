@@ -11,7 +11,8 @@
 #import "NSStringExtensions.h"
 
 @implementation FindController
-@synthesize query, findButton, project, resultsTable, queryField, results, buffer, gitGrep, caseSensitive, regex, spinner, resultsCount;
+@synthesize query, findButton, project, resultsTable, queryField, results, buffer, 
+			gitGrep, caseSensitive, regex, spinner, resultsCount, selectedFolder, lookInSelected;
 
 static FindController *fc;
 
@@ -20,7 +21,6 @@ static FindController *fc;
 				return fc;
 	} else {
 		return fc = [[self alloc] initWithWindowNibName:@"FindPanel"];
-				[fc showWindow:self];
 	}
 }
 
@@ -52,6 +52,15 @@ static FindController *fc;
 	}
 	
 	if (self.project) {
+		self.selectedFolder = [[self.project environmentVariables] objectForKey:@"TM_SELECTED_FILE"];
+		BOOL isDirectory = NO;
+		[[NSFileManager defaultManager] fileExistsAtPath:self.selectedFolder isDirectory:&isDirectory];
+		if (isDirectory) {
+			[self.lookInSelected setHidden:NO];
+		} else {
+			[self.lookInSelected setHidden:YES];
+		}
+		
 		if (![self isGitProject:self.project]) {
 			[self.gitGrep setState:NSOffState];
 			[self.gitGrep setHidden:YES];
@@ -117,6 +126,10 @@ static FindController *fc;
 	return [self.regex state] == NSOnState;
 }
 
+- (BOOL)useLookInSelected {
+	return ![self.lookInSelected isHidden] && [self.lookInSelected state] == NSOnState;
+}
+
 - (BOOL)useGitGrep {
 	return [self.gitGrep state] == NSOnState;
 }
@@ -155,9 +168,16 @@ static FindController *fc;
 		[args addObject:@"-F"];
 	else 
 		[args addObject:@"-E"];
-
 	
-	[args addObjectsFromArray:[NSArray arrayWithObjects:@"-n", @"-e", q, directory, nil]];
+	
+	[args addObjectsFromArray:[NSArray arrayWithObjects:@"-n", @"-e", q, nil]];
+	
+	if ([self useLookInSelected])
+		[args addObject:self.selectedFolder];
+	else
+		[args addObject:directory];
+		
+		
 	[task setArguments:args];
 	
     [[NSNotificationCenter defaultCenter] addObserver:self 

@@ -20,7 +20,9 @@
 	NSButton *gitGrep;
 	NSButton *regex;
 	NSButton *caseSensitive;
+	NSButton *lookInSelected;
 	NSString *query;
+	NSString *selectedFolder;
 	NSProgressIndicator *spinner;
 	NSTask *task;
 	NSString *filePattern;
@@ -33,9 +35,11 @@
 @property (nonatomic, retain) IBOutlet NSButton *gitGrep;
 @property (nonatomic, retain) IBOutlet NSButton *regex;
 @property (nonatomic, retain) IBOutlet NSButton *caseSensitive;
+@property (nonatomic, retain) IBOutlet NSButton *lookInSelected;
 @property (nonatomic, retain) IBOutlet NSProgressIndicator *spinner;
 @property (nonatomic, retain) IBOutlet NSTextField *resultsCount;
 @property (nonatomic, retain) NSString *query;
+@property (nonatomic, retain) NSString *selectedFolder;
 @property (nonatomic, retain) OakProjectController *project;
 @property (nonatomic, retain) NSMutableArray *results;
 @property (nonatomic, retain) NSMutableString *buffer;
