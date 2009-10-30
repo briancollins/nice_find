@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="2"/>
+			<integer value="1"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -396,18 +396,18 @@
 								<reference key="NSTextColor" ref="370263827"/>
 							</object>
 						</object>
-						<object class="NSButton" id="472057621">
+						<object class="NSButton" id="955686722">
 							<reference key="NSNextResponder" ref="1006"/>
 							<int key="NSvFlags">-2147483380</int>
 							<string key="NSFrame">{{505, 222}, {178, 18}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<bool key="NSEnabled">YES</bool>
-							<object class="NSButtonCell" key="NSCell" id="984731262">
+							<object class="NSButtonCell" key="NSCell" id="44628331">
 								<int key="NSCellFlags">-2080244224</int>
 								<int key="NSCellFlags2">0</int>
 								<string key="NSContents">Look in selected folder</string>
 								<reference key="NSSupport" ref="249032183"/>
-								<reference key="NSControlView" ref="472057621"/>
+								<reference key="NSControlView" ref="955686722"/>
 								<int key="NSButtonFlags">1211912703</int>
 								<int key="NSButtonFlags2">2</int>
 								<reference key="NSNormalImage" ref="312786632"/>
@@ -538,7 +538,7 @@
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">lookInSelected</string>
 						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="472057621"/>
+						<reference key="destination" ref="955686722"/>
 					</object>
 					<int key="connectionID">60</int>
 				</object>
@@ -592,7 +592,7 @@
 							<reference ref="1015011841"/>
 							<reference ref="937891049"/>
 							<reference ref="647942863"/>
-							<reference ref="472057621"/>
+							<reference ref="955686722"/>
 						</object>
 						<reference key="parent" ref="1005"/>
 					</object>
@@ -752,17 +752,17 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">58</int>
-						<reference key="object" ref="472057621"/>
+						<reference key="object" ref="955686722"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="984731262"/>
+							<reference ref="44628331"/>
 						</object>
 						<reference key="parent" ref="1006"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">59</int>
-						<reference key="object" ref="984731262"/>
-						<reference key="parent" ref="472057621"/>
+						<reference key="object" ref="44628331"/>
+						<reference key="parent" ref="955686722"/>
 					</object>
 				</object>
 			</object>
@@ -813,7 +813,7 @@
 					<string>{{404, 417}, {701, 289}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{404, 417}, {701, 289}}</string>
-					<integer value="1"/>
+					<boolean value="NO"/>
 					<string>{196, 240}</string>
 					<string>{{202, 428}, {480, 270}}</string>
 					<boolean value="YES"/>

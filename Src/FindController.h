@@ -27,6 +27,8 @@
 	NSTask *task;
 	NSString *filePattern;
 	NSString *folderPattern;
+	NSWindow *parentWindow;
+	NSMutableDictionary *rememberedPositions;
 }
 
 @property (nonatomic, retain) IBOutlet NSButton *findButton;
@@ -43,6 +45,8 @@
 @property (nonatomic, retain) OakProjectController *project;
 @property (nonatomic, retain) NSMutableArray *results;
 @property (nonatomic, retain) NSMutableString *buffer;
+@property (nonatomic, retain) NSWindow *parentWindow;
+@property (nonatomic, retain) NSMutableDictionary *rememberedPositions;
 
 + (id)sharedInstance;
 - (IBAction)performFind:(id)sender;

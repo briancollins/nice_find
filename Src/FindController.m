@@ -12,7 +12,8 @@
 
 @implementation FindController
 @synthesize query, findButton, project, resultsTable, queryField, results, buffer, 
-			gitGrep, caseSensitive, regex, spinner, resultsCount, selectedFolder, lookInSelected;
+			gitGrep, caseSensitive, regex, spinner, resultsCount, selectedFolder, lookInSelected,
+			parentWindow, rememberedPositions;
 
 static FindController *fc;
 
@@ -38,6 +39,40 @@ static FindController *fc;
 - (BOOL)isGitProject:(OakProjectController *)p {
 	return [[NSFileManager defaultManager] fileExistsAtPath:
 			[[p projectDirectory] stringByAppendingPathComponent:@".git"]];
+}
+
+- (void)showForWindow:(NSWindow *)newParent {
+	if (newParent != self.parentWindow) {
+		NSString *offsetString;
+		NSRect rect = self.window.frame;
+		
+		if (!self.rememberedPositions)
+			self.rememberedPositions = [NSMutableDictionary dictionary];
+
+		if (self.parentWindow) {
+			NSPoint offset = rect.origin;
+			offset.x -= self.parentWindow.frame.origin.x;
+			offset.y -= self.parentWindow.frame.origin.y;
+			[self.rememberedPositions setObject:NSStringFromPoint(offset) forKey:[NSNumber numberWithInt:[self.parentWindow windowNumber]]];
+		}
+		
+		if (offsetString = [self.rememberedPositions objectForKey:[NSNumber numberWithInt:[newParent windowNumber]]]) {
+			NSPoint offset = NSPointFromString(offsetString);
+			rect.origin = newParent.frame.origin;
+			rect.origin.x += offset.x;
+			rect.origin.y += offset.y;
+		} else {
+			rect.origin = newParent.frame.origin;
+			rect.origin.x += 50;
+			rect.origin.y += 300;
+		}
+		
+		[self.window setFrame:rect display:NO];	
+		self.parentWindow = newParent;
+	}
+	
+	
+	[self showWindow:self];
 }
 
 - (void)show {	
@@ -67,7 +102,7 @@ static FindController *fc;
 		} else {
 			[self.gitGrep setHidden:NO];
 		}
-		[self showWindow:self];		
+		[self showForWindow:[self.project window]];		
 	} else {
 		[self close];
 		[[[NSApplication sharedApplication] delegate] orderFrontFindPanel:self];
