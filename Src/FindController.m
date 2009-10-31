@@ -320,7 +320,9 @@ static FindController *fc;
 		[self.resultsCount setStringValue:[NSString stringWithFormat:@"%d results", c]];
 }
 
+
 - (void)addResult:(NSDictionary *)aResult forFile:(NSString *)path {
+	
 	NSMutableArray *a = [self.results objectForKey:path];
 	if (!a) {
 		a = [NSMutableArray array];
@@ -382,13 +384,20 @@ static FindController *fc;
 
 
 - (BOOL)outlineView:(NSOutlineView *)olv isItemExpandable:(id)item {
-	return [item isKindOfClass:objc_getClass("NSString")];
+	return [item isKindOfClass:[NSString class]];
+}
+
+- (NSAttributedString *)underlineString:(NSString *)string {
+	return [[[NSMutableAttributedString alloc] initWithString:string attributes:
+			 [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:NSUnderlineStyleSingle]
+										 forKey:NSUnderlineStyleAttributeName]] autorelease];
+	
 }
 
 - (id)outlineView:(NSOutlineView *)olv objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
-	if ([item isKindOfClass:objc_getClass("NSString")]) {
+	if ([item isKindOfClass:[NSString class]]) {
 		if ([[tableColumn identifier] isEqualToString:@"text"])
-			return item;
+			return [self underlineString:item];
 	} else {
 		if ([[tableColumn identifier] isEqualToString:@"text"])
 			return [item objectForKey:@"match"]; 
