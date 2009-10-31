@@ -198,8 +198,14 @@ static FindController *fc;
 	NSMutableArray *args = [NSMutableArray array];
 	
 	if ([self useGitGrep]) {
-		[task setLaunchPath:@"/usr/bin/env"];
-		[args addObjectsFromArray:[NSArray arrayWithObjects:@"git", @"grep", nil]];
+		NSString *tmGit;
+		if (tmGit = [[self allEnvironmentVariables] objectForKey:@"TM_GIT"])
+			[task setLaunchPath:tmGit];
+		else {
+			[task setLaunchPath:@"/usr/bin/env"];
+			[args addObject:@"git"];
+		}
+		[args addObject:@"grep"];
 	} else {
 		[task setLaunchPath:[self grepPath]];
 		[args addObjectsFromArray:[NSArray arrayWithObjects:@"-Ir", @"--exclude-dir=.svn", @"--exclude-dir=.git", nil]];
