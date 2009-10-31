@@ -54,7 +54,10 @@
 - (void)taskEnded:(NSNotification *)aNotification;
 - (void)addResult:(NSString *)aResult;
 - (void)show;
+- (void)showAndMove;
 - (void)updateResultsCount;
+- (void)wakeUp;
+
 
 @end
 

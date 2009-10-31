@@ -33,7 +33,7 @@
 
 
 - (void)orderFrontFindInProjectPanel:(id)sender {
-	[[FindController sharedInstance] show];
+	[[FindController sharedInstance] showAndMove];
 }
 
 @end

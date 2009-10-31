@@ -74,7 +74,17 @@ static FindController *fc;
 	[self showWindow:self];
 }
 
-- (void)show {	
+- (void)showAndMove {
+	[self wakeUp];
+	[self showForWindow:self.project.window];
+}
+
+- (void)show {
+	[self wakeUp];
+	[self showWindow:self];
+}
+
+- (void)wakeUp {	
 	[self.window makeFirstResponder:self.queryField]; 
 	self.project = nil;
 	for (NSWindow *w in [[NSApplication sharedApplication] orderedWindows]) {
@@ -101,7 +111,6 @@ static FindController *fc;
 		} else {
 			[self.gitGrep setHidden:NO];
 		}
-		[self showForWindow:[self.project window]];		
 	} else {
 		[self close];
 		[[[NSApplication sharedApplication] delegate] orderFrontFindPanel:self];
@@ -179,6 +188,7 @@ static FindController *fc;
 
 - (void)find:(NSString *)q inDirectory:(NSString *)directory {
 	self.query = q;
+
 	task = [[NSTask alloc] init];
     [task setStandardOutput:[NSPipe pipe]];
     [task setStandardError:[task standardOutput]];
@@ -204,15 +214,17 @@ static FindController *fc;
 	else 
 		[args addObject:@"-E"];
 	
+
 	
 	[args addObjectsFromArray:[NSArray arrayWithObjects:@"-n", @"-e", q, nil]];
+		
 	
 	if ([self useLookInSelected])
 		[args addObject:self.selectedFolder];
 	else
 		[args addObject:directory];
 		
-		
+	NSLog(@"%@", args);
 	[task setArguments:args];
 	
     [[NSNotificationCenter defaultCenter] addObserver:self 
@@ -265,8 +277,13 @@ static FindController *fc;
 		[self stopProcess];
 		return;
 	}
+	NSString *s = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
+	if (!s) {
+		[[aNotification object] readInBackgroundAndNotify];  
+		return;
+	}
 	
-	[self.buffer appendString:[[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease]];
+	[self.buffer appendString:s];
 	NSArray *parts = [self.buffer componentsSeparatedByString:@"\n"];
 	if ([parts count] > 1) {
 		for (NSString *p in [parts subarrayWithRange:NSMakeRange (0, [parts count] - 1)]) {
