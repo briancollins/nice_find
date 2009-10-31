@@ -251,6 +251,7 @@ static FindController *fc;
 
 	self.buffer = [NSMutableString string];
 
+	resultCount = 0;
 	[self updateResultsCount];
 	[self.resultsTable reloadItem:nil];
 	
@@ -313,11 +314,11 @@ static FindController *fc;
 
 - (void)updateResultsCount {
 	[self.resultsCount setHidden:NO];
-	int c = [self.results count];
-	if (c == 1)
+
+	if (resultCount == 1)
 		[self.resultsCount setStringValue:@"1 result"];
 	else 
-		[self.resultsCount setStringValue:[NSString stringWithFormat:@"%d results", c]];
+		[self.resultsCount setStringValue:[NSString stringWithFormat:@"%d results", resultCount]];
 }
 
 
@@ -359,6 +360,7 @@ static FindController *fc;
 							 [self prettifyString:[components objectAtIndex:1] range:range], @"match", nil]
 					forFile:filePath];
 			
+			resultCount ++;
 			[self updateResultsCount];
 		}
 	}

@@ -4,7 +4,7 @@ h3. A replacement for TextMate's Find In Project
 
 Aim: Provide the speed of git-grep (or normal grep) to TextMate projects.  
 
-"Screenshot":http://imgur.com/cHRhW.png
+"Screenshot":http://imgur.com/Zativ.png
 
 "Download":http://cloud.github.com/downloads/briancollins/nice_find/NiceFind.tmplugin.zip
 

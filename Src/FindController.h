@@ -17,6 +17,7 @@
 	
 	NSMutableDictionary *results;
 	NSMutableArray *foundFiles;
+	int resultCount;
 	
 	OakProjectController *project;
 	NSMutableString *buffer;
