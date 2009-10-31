@@ -13,7 +13,7 @@
 @implementation FindController
 @synthesize query, findButton, project, resultsTable, queryField, results, buffer, 
 			gitGrep, caseSensitive, regex, spinner, resultsCount, selectedFolder, lookInSelected,
-			parentWindow, rememberedPositions;
+			parentWindow, rememberedPositions, foundFiles;
 
 static FindController *fc;
 
@@ -25,15 +25,15 @@ static FindController *fc;
 	}
 }
 
-- (void)goToFile:(id)sender {
-	NSDictionary *row = [self.results objectAtIndex:[self.resultsTable selectedRow]];
+- (BOOL)outlineView:(NSOutlineView *)outlineView shouldEditTableColumn:(NSTableColumn *)tableColumn item:(id)item {
 	[[[NSApplication sharedApplication] delegate] 
-	 openFiles:[NSArray arrayWithObject:[row objectForKey:@"path"]]];
-	[(OakTextView *)[self.project textView] goToLineNumber:[row objectForKey:@"line"]];
-	NSRange r = NSRangeFromString([row objectForKey:@"range"]);
+	 openFiles:[NSArray arrayWithObject:[item objectForKey:@"absolute"]]];
+	[[self.project textView] goToLineNumber:[item objectForKey:@"line"]];
+	NSRange r = NSRangeFromString([item objectForKey:@"range"]);
 	[[self.project textView] goToColumnNumber:[NSNumber numberWithInt:r.location + 1]];
-	[[self.project textView] selectToLine:[row objectForKey:@"line"] 
+	[[self.project textView] selectToLine:[item objectForKey:@"line"] 
 								andColumn:[NSNumber numberWithInt:r.location + r.length + 1]];
+	return NO;
 }
 
 - (BOOL)isGitProject:(OakProjectController *)p {
@@ -119,7 +119,6 @@ static FindController *fc;
 
 
 - (void)windowDidLoad {
-	[self.resultsTable setDoubleAction:@selector(goToFile:)];
 	[self.window setCollectionBehavior:NSWindowCollectionBehaviorMoveToActiveSpace];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidBecomeKey:)
 												 name:NSWindowDidBecomeKeyNotification object:self.window];
@@ -194,7 +193,7 @@ static FindController *fc;
     [task setStandardError:[task standardOutput]];
 	
 
-	[task setCurrentDirectoryPath:directory];
+	
 	
 	NSMutableArray *args = [NSMutableArray array];
 	
@@ -216,15 +215,14 @@ static FindController *fc;
 	
 
 	
-	[args addObjectsFromArray:[NSArray arrayWithObjects:@"-n", @"-e", q, nil]];
+	[args addObjectsFromArray:[NSArray arrayWithObjects:@"-n", @"-e", q, @".", nil]];
 		
 	
 	if ([self useLookInSelected])
-		[args addObject:self.selectedFolder];
+		[task setCurrentDirectoryPath:self.selectedFolder];
 	else
-		[args addObject:directory];
+		[task setCurrentDirectoryPath:directory];
 		
-	NSLog(@"%@", args);
 	[task setArguments:args];
 	
     [[NSNotificationCenter defaultCenter] addObserver:self 
@@ -247,12 +245,14 @@ static FindController *fc;
 - (IBAction)performFind:(id)sender {
 	[self stopProcess];
 	[self.spinner startAnimation:self];
-	self.results = [NSMutableArray array];
+	
+	self.results = [NSMutableDictionary dictionary];
+	self.foundFiles = [NSMutableArray array];
 
 	self.buffer = [NSMutableString string];
 
 	[self updateResultsCount];
-	[self.resultsTable reloadData];
+	[self.resultsTable reloadItem:nil];
 	
 	[self find:[self.queryField stringValue] inDirectory:[self directory]];
 }
@@ -308,7 +308,6 @@ static FindController *fc;
 		NSRange r = NSRangeFromString(range);
 		[pretty setAttributes:[NSDictionary dictionaryWithObject:[self bold] forKey:NSFontAttributeName] range:r];
 	}
-	
 	return pretty;
 }
 
@@ -321,15 +320,28 @@ static FindController *fc;
 		[self.resultsCount setStringValue:[NSString stringWithFormat:@"%d results", c]];
 }
 
+- (void)addResult:(NSDictionary *)aResult forFile:(NSString *)path {
+	NSMutableArray *a = [self.results objectForKey:path];
+	if (!a) {
+		a = [NSMutableArray array];
+		[self.results setObject:a forKey:path];
+		[self.foundFiles addObject:path];
+		[a addObject:aResult];
+		[self.resultsTable reloadItem:nil];
+		[self.resultsTable expandItem:path];
+	} else {
+		[a addObject:aResult];
+		[self.resultsTable reloadItem:path];
+	}
+
+}
+
 - (void)addResult:(NSString *)aResult { 
 	NSArray *components = [aResult componentsSeparatedByRegex:@":\\d+:"];
 	NSNumber *line = [NSNumber numberWithInt:[[aResult stringByMatching:@":(\\d+):" capture:1] intValue]];
 	if ([components count] > 1) {
-		NSString *filePath;
-		if ([self useGitGrep]) // git returns relative paths :(
-			filePath = [[self directory] stringByAppendingPathComponent:[components objectAtIndex:0]];
-		else
-			filePath = [components objectAtIndex:0];
+		NSString *filePath = [components objectAtIndex:0];
+		NSString *absolute = [[self directory] stringByAppendingPathComponent:filePath];
 		
 		if ([filePath isMatchedByRegex:[self filePattern]] ||
 			[[filePath stringByDeletingLastPathComponent] isMatchedByRegex:[self folderPattern]]) {
@@ -337,24 +349,56 @@ static FindController *fc;
 		}			
 		
 		for (NSString *range in [[components objectAtIndex:1] rangesOfString:self.query caseless:![self useCaseSensitive] regex:[self useRegex]]) {
-			[self.results addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-									 [filePath lastPathComponent], @"file",
-									 filePath, @"path",
-									 line, @"line",
-									 range, @"range",
-									 [self prettifyString:[components objectAtIndex:1] range:range], @"match", nil]];
-			[self.resultsTable reloadData];
+			[self addResult:[NSDictionary dictionaryWithObjectsAndKeys:
+							 filePath, @"path",
+							 line, @"line",
+							 range, @"range",
+							 absolute, @"absolute",
+							 [self prettifyString:[components objectAtIndex:1] range:range], @"match", nil]
+					forFile:filePath];
+			
 			[self updateResultsCount];
 		}
 	}
 }
 
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView {
-	return [self.results count];
+
+
+- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item {
+	if (item == nil) {
+		return [self.foundFiles objectAtIndex:index];
+	} else {
+		return [[self.results objectForKey:item] objectAtIndex:index];
+	}
 }
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
-	return [[self.results objectAtIndex:rowIndex] objectForKey:[aTableColumn identifier]];
+- (int)outlineView:(NSOutlineView *)olv numberOfChildrenOfItem:(id)item {
+	if (!item) {
+		return [self.foundFiles count];
+	} else {
+		return [[self.results objectForKey:item] count];
+	}
+}
+
+
+- (BOOL)outlineView:(NSOutlineView *)olv isItemExpandable:(id)item {
+	return [item isKindOfClass:objc_getClass("NSString")];
+}
+
+- (id)outlineView:(NSOutlineView *)olv objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
+	if ([item isKindOfClass:objc_getClass("NSString")]) {
+		if ([[tableColumn identifier] isEqualToString:@"text"])
+			return item;
+	} else {
+		if ([[tableColumn identifier] isEqualToString:@"text"])
+			return [item objectForKey:@"match"]; 
+		else
+			return [[item objectForKey:@"line"] stringValue];
+
+	}
+	
+	return nil;
+	
 }
 
 @end
