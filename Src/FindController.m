@@ -253,7 +253,7 @@ static FindController *fc;
 
 	resultCount = 0;
 	[self updateResultsCount];
-	[self.resultsTable reloadItem:nil];
+	[self.resultsTable reloadData];
 	
 	[self find:[self.queryField stringValue] inDirectory:[self directory]];
 }
