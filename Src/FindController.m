@@ -185,6 +185,14 @@ static FindController *fc;
 	return [[[NSBundle bundleForClass:self.class] resourcePath] stringByAppendingPathComponent:@"grep"];
 }
 
+
+- (NSString *)directory {
+	if ([self useLookInSelected])
+		self.selectedFolder;
+	else
+		return [self.project projectDirectory];
+}
+
 - (void)find:(NSString *)q inDirectory:(NSString *)directory {
 	self.query = q;
 
@@ -223,11 +231,8 @@ static FindController *fc;
 	
 	[args addObjectsFromArray:[NSArray arrayWithObjects:@"-n", @"-e", q, @".", nil]];
 		
-	
-	if ([self useLookInSelected])
-		[task setCurrentDirectoryPath:self.selectedFolder];
-	else
-		[task setCurrentDirectoryPath:directory];
+
+	[task setCurrentDirectoryPath:[self directory]];
 		
 	[task setArguments:args];
 	
@@ -244,9 +249,6 @@ static FindController *fc;
     [task launch];    
 }
 
-- (NSString *)directory {
-	return [self.project projectDirectory];
-}
 
 - (IBAction)performFind:(id)sender {
 	[self stopProcess];
