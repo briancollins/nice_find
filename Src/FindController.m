@@ -323,12 +323,11 @@ static FindController *fc;
 		
 		for (NSString *range in [[components objectAtIndex:1] rangesOfString:self.query caseless:![self useCaseSensitive] regex:[self useRegex]]) {
 			[self addResult:[NSDictionary dictionaryWithObjectsAndKeys:
-							 filePath, @"path",
 							 line, @"line",
 							 range, @"range",
 							 filePath, @"absolute",
 							 [self prettifyString:[components objectAtIndex:1] range:range], @"match", nil]
-					forFile:filePath];
+					forFile:[filePath substringFromIndex:[[self.project projectDirectory] length] + 1]];
 			
 			resultCount ++;
 			[self updateResultsCount];
