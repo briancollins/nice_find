@@ -162,20 +162,20 @@ static FindController *fc;
 		return [self.project projectDirectory];
 }
 
-- (NSArray *)filenamesFrom:(NSArray *)root {
+- (NSArray *)filenamesFrom:(NSArray *)root inDirectory:(NSString *)directory {
 	NSMutableArray *result = [NSMutableArray array];
 	for (NSDictionary *d in root) {
 		if ([d objectForKey:@"sourceDirectory"])
-			[result addObjectsFromArray:[self filenamesFrom:[d objectForKey:@"children"]]];
-		else
+			[result addObjectsFromArray:[self filenamesFrom:[d objectForKey:@"children"] inDirectory:directory]];
+		else if ([[d objectForKey:@"filename"] hasPrefix:directory])
 			[result addObject:[d objectForKey:@"filename"]];
 	}
 	
 	return result;
 }
 
-- (NSArray *)projectFiles {
-	return [self filenamesFrom:[self.project valueForKey:@"rootItems"]];
+- (NSArray *)projectFilesInDirectory:(NSString *)directory {
+	return [self filenamesFrom:[self.project valueForKey:@"rootItems"] inDirectory:directory];
 }
 
 - (void)find:(NSString *)q inDirectory:(NSString *)directory {
@@ -197,7 +197,7 @@ static FindController *fc;
 		[args addObject:@"-E"];
 	
 	[args addObjectsFromArray:[NSArray arrayWithObjects:@"-e", q, nil]];
-	[args addObjectsFromArray:[self projectFiles]];	
+	[args addObjectsFromArray:[self projectFilesInDirectory:directory]];	
 
 	[task setCurrentDirectoryPath:[self directory]];
 		
@@ -254,7 +254,7 @@ static FindController *fc;
 		return;
 	}
 	NSString *s = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
-	NSLog(@"%@", s);
+
 	if (!s) {
 		[[aNotification object] readInBackgroundAndNotify];  
 		return;
