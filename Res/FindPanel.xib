@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="81"/>
+			<integer value="2"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -110,37 +110,10 @@
 								<int key="NSPeriodicInterval">25</int>
 							</object>
 						</object>
-						<object class="NSButton" id="234204817">
-							<reference key="NSNextResponder" ref="1006"/>
-							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{96, 222}, {120, 18}}</string>
-							<reference key="NSSuperview" ref="1006"/>
-							<bool key="NSEnabled">YES</bool>
-							<object class="NSButtonCell" key="NSCell" id="314060193">
-								<int key="NSCellFlags">-2080244224</int>
-								<int key="NSCellFlags2">0</int>
-								<string key="NSContents">Use git-grep</string>
-								<reference key="NSSupport" ref="249032183"/>
-								<reference key="NSControlView" ref="234204817"/>
-								<int key="NSButtonFlags">1211912703</int>
-								<int key="NSButtonFlags2">2</int>
-								<object class="NSCustomResource" key="NSNormalImage" id="312786632">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">NSSwitch</string>
-								</object>
-								<object class="NSButtonImageSource" key="NSAlternateImage" id="769084002">
-									<string key="NSImageName">NSSwitch</string>
-								</object>
-								<string key="NSAlternateContents"/>
-								<string key="NSKeyEquivalent">g</string>
-								<int key="NSPeriodicDelay">200</int>
-								<int key="NSPeriodicInterval">25</int>
-							</object>
-						</object>
 						<object class="NSButton" id="29780196">
 							<reference key="NSNextResponder" ref="1006"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{221, 222}, {143, 18}}</string>
+							<string key="NSFrame">{{18, 222}, {143, 18}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="350965039">
@@ -151,8 +124,13 @@
 								<reference key="NSControlView" ref="29780196"/>
 								<int key="NSButtonFlags">1211912703</int>
 								<int key="NSButtonFlags2">2</int>
-								<reference key="NSNormalImage" ref="312786632"/>
-								<reference key="NSAlternateImage" ref="769084002"/>
+								<object class="NSCustomResource" key="NSNormalImage" id="167938592">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">NSSwitch</string>
+								</object>
+								<object class="NSButtonImageSource" key="NSAlternateImage" id="769084002">
+									<string key="NSImageName">NSSwitch</string>
+								</object>
 								<string key="NSAlternateContents"/>
 								<string key="NSKeyEquivalent"/>
 								<int key="NSPeriodicDelay">200</int>
@@ -171,7 +149,7 @@
 						<object class="NSButton" id="665898483">
 							<reference key="NSNextResponder" ref="1006"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{349, 222}, {143, 18}}</string>
+							<string key="NSFrame">{{146, 222}, {143, 18}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="279641873">
@@ -182,7 +160,7 @@
 								<reference key="NSControlView" ref="665898483"/>
 								<int key="NSButtonFlags">1211912703</int>
 								<int key="NSButtonFlags2">2</int>
-								<reference key="NSNormalImage" ref="312786632"/>
+								<reference key="NSNormalImage" ref="167938592"/>
 								<reference key="NSAlternateImage" ref="769084002"/>
 								<string key="NSAlternateContents"/>
 								<string key="NSKeyEquivalent"/>
@@ -222,7 +200,7 @@
 						<object class="NSButton" id="643271974">
 							<reference key="NSNextResponder" ref="1006"/>
 							<int key="NSvFlags">-2147483380</int>
-							<string key="NSFrame">{{505, 222}, {178, 18}}</string>
+							<string key="NSFrame">{{302, 222}, {178, 18}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="476336538">
@@ -233,7 +211,7 @@
 								<reference key="NSControlView" ref="643271974"/>
 								<int key="NSButtonFlags">1211912703</int>
 								<int key="NSButtonFlags2">2</int>
-								<reference key="NSNormalImage" ref="312786632"/>
+								<reference key="NSNormalImage" ref="167938592"/>
 								<reference key="NSAlternateImage" ref="769084002"/>
 								<string key="NSAlternateContents"/>
 								<string key="NSKeyEquivalent"/>
@@ -466,14 +444,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">gitGrep</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="234204817"/>
-					</object>
-					<int key="connectionID">52</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">regex</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="665898483"/>
@@ -570,7 +540,6 @@
 						<reference key="object" ref="1006"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="234204817"/>
 							<reference ref="29780196"/>
 							<reference ref="913934093"/>
 							<reference ref="425968650"/>
@@ -609,20 +578,6 @@
 						<int key="objectID">6</int>
 						<reference key="object" ref="327403204"/>
 						<reference key="parent" ref="913934093"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">40</int>
-						<reference key="object" ref="234204817"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="314060193"/>
-						</object>
-						<reference key="parent" ref="1006"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">41</int>
-						<reference key="object" ref="314060193"/>
-						<reference key="parent" ref="234204817"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">44</int>
@@ -765,8 +720,6 @@
 					<string>2.IBViewIntegration.shadowOffsetWidth</string>
 					<string>3.IBPluginDependency</string>
 					<string>4.IBPluginDependency</string>
-					<string>40.IBPluginDependency</string>
-					<string>41.IBPluginDependency</string>
 					<string>44.IBPluginDependency</string>
 					<string>45.IBPluginDependency</string>
 					<string>49.IBPluginDependency</string>
@@ -802,8 +755,6 @@
 					<reference ref="1032232807"/>
 					<real value="0.0"/>
 					<real value="0.0"/>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -861,7 +812,6 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>caseSensitive</string>
 							<string>findButton</string>
-							<string>gitGrep</string>
 							<string>lookInSelected</string>
 							<string>queryField</string>
 							<string>regex</string>
@@ -871,7 +821,6 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>NSButton</string>
 							<string>NSButton</string>
 							<string>NSButton</string>
 							<string>NSButton</string>
