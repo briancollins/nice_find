@@ -193,31 +193,31 @@ static FindController *fc;
 		return [self.project projectDirectory];
 }
 
+- (NSArray *)filenamesFrom:(NSArray *)root {
+	NSMutableArray *result = [NSMutableArray array];
+	for (NSDictionary *d in root) {
+		if ([d objectForKey:@"sourceDirectory"])
+			[result addObjectsFromArray:[self filenamesFrom:[d objectForKey:@"children"]]];
+		else
+			[result addObject:[d objectForKey:@"filename"]];
+	}
+	
+	return result;
+}
+
+- (NSArray *)projectFiles {
+	return [self filenamesFrom:[self.project valueForKey:@"rootItems"]];
+}
+
 - (void)find:(NSString *)q inDirectory:(NSString *)directory {
 	self.query = q;
 
 	task = [[NSTask alloc] init];
     [task setStandardOutput:[NSPipe pipe]];
     [task setStandardError:[task standardOutput]];
-	
 
-	
-	
-	NSMutableArray *args = [NSMutableArray array];
-	
-	if ([self useGitGrep]) {
-		NSString *tmGit;
-		if (tmGit = [[self allEnvironmentVariables] objectForKey:@"TM_GIT"])
-			[task setLaunchPath:tmGit];
-		else {
-			[task setLaunchPath:@"/usr/bin/env"];
-			[args addObject:@"git"];
-		}
-		[args addObject:@"grep"];
-	} else {
-		[task setLaunchPath:[self grepPath]];
-		[args addObjectsFromArray:[NSArray arrayWithObjects:@"-Ir", @"--exclude-dir=.svn", @"--exclude-dir=.git", nil]];
-	}
+	[task setLaunchPath:@"/usr/bin/grep"];
+	NSMutableArray *args = [NSMutableArray arrayWithObject:@"-In"];
 	
 	if (![self useCaseSensitive]) 
 		[args addObject:@"-i"];
@@ -227,10 +227,8 @@ static FindController *fc;
 	else 
 		[args addObject:@"-E"];
 	
-
-	
-	[args addObjectsFromArray:[NSArray arrayWithObjects:@"-n", @"-e", q, @".", nil]];
-		
+	[args addObjectsFromArray:[NSArray arrayWithObjects:@"-e", q, nil]];
+	[args addObjectsFromArray:[self projectFiles]];	
 
 	[task setCurrentDirectoryPath:[self directory]];
 		
@@ -287,6 +285,7 @@ static FindController *fc;
 		return;
 	}
 	NSString *s = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
+	NSLog(@"%@", s);
 	if (!s) {
 		[[aNotification object] readInBackgroundAndNotify];  
 		return;
