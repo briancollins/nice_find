@@ -20,25 +20,27 @@
 	int resultCount;
 	
 	OakProjectController *project;
-	NSMutableString *buffer;
-	NSButton *gitGrep;
+
 	NSButton *regex;
 	NSButton *caseSensitive;
 	NSButton *lookInSelected;
-	NSString *query;
 	NSString *selectedFolder;
-	NSProgressIndicator *spinner;
+	
+	NSString *query;
+	NSMutableString *buffer;
+	
 	NSTask *task;
 	NSString *filePattern;
 	NSString *folderPattern;
 	NSWindow *parentWindow;
+	NSProgressIndicator *spinner;
+	
 	NSMutableDictionary *rememberedPositions;
 }
 
 @property (nonatomic, retain) IBOutlet NSButton *findButton;
 @property (nonatomic, retain) IBOutlet NSTextField *queryField;
 @property (nonatomic, retain) IBOutlet NSOutlineView *resultsTable;
-@property (nonatomic, retain) IBOutlet NSButton *gitGrep;
 @property (nonatomic, retain) IBOutlet NSButton *regex;
 @property (nonatomic, retain) IBOutlet NSButton *caseSensitive;
 @property (nonatomic, retain) IBOutlet NSButton *lookInSelected;

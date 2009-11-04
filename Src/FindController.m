@@ -11,8 +11,8 @@
 #import "NSStringExtensions.h"
 
 @implementation FindController
-@synthesize query, findButton, project, resultsTable, queryField, results, buffer, 
-			gitGrep, caseSensitive, regex, spinner, resultsCount, selectedFolder, lookInSelected,
+@synthesize query, findButton, project, resultsTable, queryField, results, buffer,
+			caseSensitive, regex, spinner, resultsCount, selectedFolder, lookInSelected,
 			parentWindow, rememberedPositions, foundFiles;
 
 static FindController *fc;
@@ -34,11 +34,6 @@ static FindController *fc;
 	[[self.project textView] selectToLine:[item objectForKey:@"line"] 
 								andColumn:[NSNumber numberWithInt:r.location + r.length + 1]];
 	return NO;
-}
-
-- (BOOL)isGitProject:(OakProjectController *)p {
-	return [[NSFileManager defaultManager] fileExistsAtPath:
-			[[p projectDirectory] stringByAppendingPathComponent:@".git"]];
 }
 
 - (void)showForWindow:(NSWindow *)newParent {
@@ -105,12 +100,6 @@ static FindController *fc;
 			[self.lookInSelected setHidden:YES];
 		}
 		
-		if (![self isGitProject:self.project]) {
-			[self.gitGrep setState:NSOffState];
-			[self.gitGrep setHidden:YES];
-		} else {
-			[self.gitGrep setHidden:NO];
-		}
 	} else {
 		[self close];
 		[[[NSApplication sharedApplication] delegate] orderFrontFindPanel:self];
@@ -141,23 +130,7 @@ static FindController *fc;
 	return [[self.project environmentVariables] objectForKey:@"TM_PROJECT_FILEPATH"];
 }
 
-- (NSString *)filePattern {
-	if (filePattern)
-		return filePattern;
-	else
-		return filePattern = [[[[NSUserDefaults standardUserDefaults] stringForKey:@"OakFolderReferenceFilePattern"] substringFromIndex:1] retain];
-}
-
-- (NSString *)folderPattern {
-	if (folderPattern) 
-		return folderPattern;
-	else
-		return folderPattern = [[[[NSUserDefaults standardUserDefaults] stringForKey:@"OakFolderReferenceFolderPattern"] substringFromIndex:1] retain];	
-}
-
 - (void)dealloc {
-	[folderPattern release];
-	[filePattern release];
 	[super dealloc];
 }
 
@@ -173,10 +146,6 @@ static FindController *fc;
 	return ![self.lookInSelected isHidden] && [self.lookInSelected state] == NSOnState;
 }
 
-- (BOOL)useGitGrep {
-	return [self.gitGrep state] == NSOnState;
-}
-
 - (BOOL)useCaseSensitive {
 	return [self.caseSensitive state] == NSOnState;
 }
@@ -188,7 +157,7 @@ static FindController *fc;
 
 - (NSString *)directory {
 	if ([self useLookInSelected])
-		self.selectedFolder;
+		return self.selectedFolder;
 	else
 		return [self.project projectDirectory];
 }
@@ -330,7 +299,6 @@ static FindController *fc;
 
 
 - (void)addResult:(NSDictionary *)aResult forFile:(NSString *)path {
-	
 	NSMutableArray *a = [self.results objectForKey:path];
 	if (!a) {
 		a = [NSMutableArray array];
@@ -351,19 +319,14 @@ static FindController *fc;
 	NSNumber *line = [NSNumber numberWithInt:[[aResult stringByMatching:@":(\\d+):" capture:1] intValue]];
 	if ([components count] > 1) {
 		NSString *filePath = [components objectAtIndex:0];
-		NSString *absolute = [[self directory] stringByAppendingPathComponent:filePath];
-		
-		if ([filePath isMatchedByRegex:[self filePattern]] ||
-			[[filePath stringByDeletingLastPathComponent] isMatchedByRegex:[self folderPattern]]) {
-			return;
-		}			
+			
 		
 		for (NSString *range in [[components objectAtIndex:1] rangesOfString:self.query caseless:![self useCaseSensitive] regex:[self useRegex]]) {
 			[self addResult:[NSDictionary dictionaryWithObjectsAndKeys:
 							 filePath, @"path",
 							 line, @"line",
 							 range, @"range",
-							 absolute, @"absolute",
+							 filePath, @"absolute",
 							 [self prettifyString:[components objectAtIndex:1] range:range], @"match", nil]
 					forFile:filePath];
 			
