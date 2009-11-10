@@ -84,7 +84,18 @@ static FindController *fc;
 	[self showWindow:self];
 }
 
+- (void)loadFindStringFromPasteboard {
+	NSPasteboard *pasteboard = [NSPasteboard pasteboardWithName:NSFindPboard];
+
+	if ([[pasteboard types] containsObject:NSStringPboardType]) {
+		NSString *string = [pasteboard stringForType:NSStringPboardType];
+		if (string && [string length]) {
+			[self.queryField setStringValue:string];
+		}
+    }
+}
 - (void)wakeUp {	
+	[self loadFindStringFromPasteboard];
 	[self.window makeFirstResponder:self.queryField]; 
 	self.project = nil;
 	for (NSWindow *w in [[NSApplication sharedApplication] orderedWindows]) {
