@@ -94,6 +94,17 @@ static FindController *fc;
 		}
     }
 }
+
+- (void)loadFindStringToPasteboard
+{
+	NSPasteboard *pasteboard = [NSPasteboard pasteboardWithName: NSFindPboard];
+	
+	[pasteboard declareTypes:[NSArray arrayWithObject:NSStringPboardType]
+						   owner:nil];
+	[pasteboard setString:[self.queryField stringValue] forType:NSStringPboardType];
+}
+	
+
 - (void)wakeUp {	
 	[self loadFindStringFromPasteboard];
 	[self.window makeFirstResponder:self.queryField]; 
@@ -133,12 +144,19 @@ static FindController *fc;
 	[self.window setCollectionBehavior:NSWindowCollectionBehaviorMoveToActiveSpace];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidBecomeKey:)
 												 name:NSWindowDidBecomeKeyNotification object:self.window];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidResignKey:)
+												 name:NSWindowDidResignKeyNotification object:self.window];
 }
-
 
 - (void)windowDidBecomeKey:(NSNotification *)notification {
 	[self show];
 }
+
+- (void)windowDidResignKey:(NSNotification *)notification {
+	[self loadFindStringToPasteboard];
+}
+
+
 
 - (void)setProject:(OakProjectController *)p {
 	project = p;
