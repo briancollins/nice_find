@@ -61,19 +61,40 @@ static FindController *fc;
 		[self.window setFrame:rect display:NO];	
 		self.parentWindow = newParent;
 	}
-	
-	
 	[self showWindow:self];
 }
 
 - (void)showAndMove {
-	[self wakeUp];
-	[self showForWindow:self.project.window];
+	if ([self loadProject]) {
+		[self wakeUp];
+		[self showForWindow:self.project.window];
+	} else {
+		[[[NSApplication sharedApplication] delegate] orderFrontFindPanel:self];
+		[self close];
+	}
+}
+
+- (BOOL)loadProject {
+	self.project = nil;
+	for (NSWindow *w in [[NSApplication sharedApplication] orderedWindows]) {
+		if ([[[w windowController] className] isEqualToString: @"OakProjectController"] &&
+			[[w windowController] projectDirectory]) {
+			self.project = [w windowController];
+			break;
+		}
+	}
+	
+	return self.project != nil;
 }
 
 - (void)show {
-	[self wakeUp];
-	[self showWindow:self];
+	if ([self loadProject]) {
+		[self wakeUp];
+		[self showWindow:self];
+	} else {
+		[[[NSApplication sharedApplication] delegate] orderFrontFindPanel:self];
+		[self close];
+	}
 }
 
 - (void)loadFindStringFromPasteboard {
@@ -99,35 +120,20 @@ static FindController *fc;
 
 - (void)wakeUp {	
 	[self loadFindStringFromPasteboard];
-	[self.window makeFirstResponder:self.queryField]; 
-	self.project = nil;
-	for (NSWindow *w in [[NSApplication sharedApplication] orderedWindows]) {
-		if ([[[w windowController] className] isEqualToString: @"OakProjectController"] &&
-			[[w windowController] projectDirectory]) {
-			self.project = [w windowController];
-			break;
-		}
+	self.selectedFolder = [[self.project environmentVariables] objectForKey:@"TM_SELECTED_FILE"];
+	BOOL isDirectory = NO;
+	[[NSFileManager defaultManager] fileExistsAtPath:self.selectedFolder isDirectory:&isDirectory];
+	if (isDirectory) {
+		[self.lookInSelected setHidden:NO];
+	} else {
+		[self.lookInSelected setHidden:YES];
 	}
 	
-	if (self.project) {
-		self.selectedFolder = [[self.project environmentVariables] objectForKey:@"TM_SELECTED_FILE"];
-		BOOL isDirectory = NO;
-		[[NSFileManager defaultManager] fileExistsAtPath:self.selectedFolder isDirectory:&isDirectory];
-		if (isDirectory) {
-			[self.lookInSelected setHidden:NO];
-		} else {
-			[self.lookInSelected setHidden:YES];
-		}
-		
-		if (![self isGitProject:self.project]) {
-			[self.gitGrep setState:NSOffState];
-			[self.gitGrep setHidden:YES];
-		} else {
-			[self.gitGrep setHidden:NO];
-		}
+	if (![self isGitProject:self.project]) {
+		[self.gitGrep setState:NSOffState];
+		[self.gitGrep setHidden:YES];
 	} else {
-		[self close];
-		[[[NSApplication sharedApplication] delegate] orderFrontFindPanel:self];
+		[self.gitGrep setHidden:NO];
 	}
 }
 
@@ -352,7 +358,6 @@ static FindController *fc;
 
 
 - (void)addResult:(NSDictionary *)aResult forFile:(NSString *)path {
-	
 	NSMutableArray *a = [self.results objectForKey:path];
 	if (!a) {
 		a = [NSMutableArray array];
