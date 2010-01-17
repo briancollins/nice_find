@@ -1,11 +1,3 @@
-//
-//  NiceFind.mm
-//  NiceFind
-//
-//  Created by Brian Collins on 09-10-23.
-//  Copyright 2009 Brian Collins. All rights reserved.
-//
-
 #import <objc/runtime.h>
 
 #import "NiceFind.h"
@@ -19,6 +11,7 @@
 {
 	self = [self init];
 	NSApp = [NSApplication sharedApplication];
+	
 	methodSwizzle(objc_getClass("OakProjectController"), @selector(findInProjectWithOptions:), @selector(fip:));
 	methodSwizzle(objc_getClass("OakFindManager"), @selector(performFindInProjectAction:), @selector(performFindInProjectActionNew:));
 	return self;
