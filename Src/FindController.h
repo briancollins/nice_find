@@ -56,6 +56,7 @@
 - (void)showAndMove;
 - (void)updateResultsCount;
 - (void)wakeUp;
+- (BOOL)loadProject;
 
 
 @end

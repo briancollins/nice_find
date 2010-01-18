@@ -68,6 +68,7 @@ static FindController *fc;
 	if ([self loadProject]) {
 		[self wakeUp];
 		[self showForWindow:self.project.window];
+		[self loadFindStringFromPasteboard];
 	} else {
 		[[[NSApplication sharedApplication] delegate] orderFrontFindPanel:self];
 		[self close];
@@ -87,15 +88,6 @@ static FindController *fc;
 	return self.project != nil;
 }
 
-- (void)show {
-	if ([self loadProject]) {
-		[self wakeUp];
-		[self showWindow:self];
-	} else {
-		[[[NSApplication sharedApplication] delegate] orderFrontFindPanel:self];
-		[self close];
-	}
-}
 
 - (void)loadFindStringFromPasteboard {
 	NSPasteboard *pasteboard = [NSPasteboard pasteboardWithName:NSFindPboard];
@@ -108,8 +100,7 @@ static FindController *fc;
     }
 }
 
-- (void)loadFindStringToPasteboard
-{
+- (void)loadFindStringToPasteboard {
 	NSPasteboard *pasteboard = [NSPasteboard pasteboardWithName: NSFindPboard];
 	
 	[pasteboard declareTypes:[NSArray arrayWithObject:NSStringPboardType]
@@ -119,7 +110,6 @@ static FindController *fc;
 	
 
 - (void)wakeUp {	
-	[self loadFindStringFromPasteboard];
 	self.selectedFolder = [[self.project environmentVariables] objectForKey:@"TM_SELECTED_FILE"];
 	BOOL isDirectory = NO;
 	[[NSFileManager defaultManager] fileExistsAtPath:self.selectedFolder isDirectory:&isDirectory];
